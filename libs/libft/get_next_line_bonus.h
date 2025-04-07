@@ -25,7 +25,7 @@
 # include <bsd/string.h>
 
 char	*get_next_line(int fd);
-char	*ft_strchr(char *s, int c);
+char	*ft_strchr_2(char *s, int c);
 int		ft_strlen(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char *s1, char *s2);

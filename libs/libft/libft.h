@@ -40,7 +40,6 @@ int						ft_isalpha(int c);
 int						ft_isascii(int c);
 int						ft_isdigit(int a);
 int						ft_isprint(int c);
-size_t					ft_strlen(const char *s);
 size_t					ft_strlcat(char *dest, char *src, size_t size);
 unsigned int			ft_strlcpy(char *dest, char *src, unsigned int size);
 char					*ft_strrchr(const char *s, int c);

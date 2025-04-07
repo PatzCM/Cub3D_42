@@ -43,7 +43,6 @@ CROSS = ❌
 #------------------------------------------------------------------------------#
 
 # Source files
-BUILD_PATH = .build
 SRC_PATH = srcs
 INC_PATH = incs
 LIB_PATH = libs
@@ -59,7 +58,7 @@ SRCS = ${addprefix ${SRCS_PATH}/, \
 			 init_data.c \ }
 
 # Object files
-OBJS = ${addprefix ${BUILD_PATH}/, ${notdir $(SRCS:.c=.o)}}
+OBJS = ${addprefix ${SRC_PATH}/, ${notdir $(SRCS:.c=.o)}}
 
 # Libraries
 LIBS = ${addprefix ${LIB_PATH}/, \
