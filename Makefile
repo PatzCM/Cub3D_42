@@ -52,18 +52,18 @@ HEADERS = $(INC_PATH)/cub3d.h
 
 # Source files
 
-SRCS = ${addprefix ${SRCS_PATH}/, \
+SRCS = $(addprefix $(SRC_PATH)/, \
 			 main.c \
 			 parsing.c \
-			 init_data.c \ }
+			 init_data.c)
 
 # Object files
-OBJS = ${addprefix ${SRC_PATH}/, ${notdir $(SRCS:.c=.o)}}
+OBJS =  $(SRCS:.c=.o)
 
 # Libraries
-LIBS = ${addprefix ${LIB_PATH}/, \
-			libft.a \
-			mlx.a}
+LIBS = $(addprefix $(LIB_PATH)/, \
+			libft/libft.a \
+			mlx/libmlx.a)
 
 #------------------------------------------------------------------------------#
 #															COMPILER & FLAGS                                 #
@@ -84,14 +84,23 @@ all: $(NAME)
 
 ${NAME}: ${OBJS} ${LIBS}
 	@echo "$(GREEN)$(BOLD)$(BUILD) $(NAME)$(RESET)"
-	@${CC} ${CFLAGS} -o $@ $^
+	@${CC} ${CFLAGS} -o $@ $(OBJS) -L$(LIB_PATH)/libft -lft -L$(LIB_PATH)/mlx -lmlx
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
 
-${BUILD_PATH}/%.o: ${SRC_PATH}/%.c ${HEADERS}
-	@mkdir -p ${BUILD_PATH}
+$(SRC_PATH)/%.o: $(SRC_PATH)/%.c $(HEADERS)
 	@echo "$(GREEN)$(BOLD)$(BUILD) $(NAME)$(RESET)"
-	@${CC} ${CFLAGS} -I ${INC_PATH} -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(INC_PATH) -c $< -o $@
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
+
+# Build libft
+$(LIB_PATH)/libft/libft.a:
+	@echo "$(GREEN)$(BOLD)Building libft$(RESET)"
+	@$(MAKE) -C $(LIB_PATH)/libft
+
+# Build mlx
+$(LIB_PATH)/mlx/libmlx.a:
+	@echo "$(GREEN)$(BOLD)Building mlx$(RESET)"
+	@$(MAKE) -C $(LIB_PATH)/mlx
 
 deps:
 	@echo "$(GREEN)$(BOLD)$(BUILD) $(NAME)$(RESET)"

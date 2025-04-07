@@ -2,7 +2,6 @@
 
 void	init_data(t_data *data)
 {
-	data = (t_data *)malloc(sizeof(t_data));
 	data->player_count = 0;
 	data->map.max_width = 0;
 	data->map.max_height = 0;
