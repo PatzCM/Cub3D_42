@@ -46,6 +46,7 @@ CROSS = ❌
 SRC_PATH = srcs
 INC_PATH = incs
 LIB_PATH = libs
+BUILD_PATH = .build
 
 # Header files
 HEADERS = $(INC_PATH)/cub3d.h
@@ -58,7 +59,7 @@ SRCS = $(addprefix $(SRC_PATH)/, \
 			 init_data.c)
 
 # Object files
-OBJS =  $(SRCS:.c=.o)
+OBJS = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
 
 # Libraries
 LIBS = $(addprefix $(LIB_PATH)/, \
@@ -70,7 +71,7 @@ LIBS = $(addprefix $(LIB_PATH)/, \
 #------------------------------------------------------------------------------#
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 AR = ar
 
@@ -80,17 +81,15 @@ AR = ar
 
 # All
 all: $(NAME)
-	@echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
+	@echo "$(GREEN)$(BOLD)$(CHECKMARK) BUILD COMPLETED $(GREEN)$(BOLD)$(BUILD)$(RESET)"
 
 ${NAME}: ${OBJS} ${LIBS}
-	@echo "$(GREEN)$(BOLD)$(BUILD) $(NAME)$(RESET)"
+	@echo "$(GREEN)$(BOLD)$(BUILD) BUILDING...$(RESET)"
 	@${CC} ${CFLAGS} -o $@ $(OBJS) -L$(LIB_PATH)/libft -lft -L$(LIB_PATH)/mlx -lmlx
-	@echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
 
-$(SRC_PATH)/%.o: $(SRC_PATH)/%.c $(HEADERS)
-	@echo "$(GREEN)$(BOLD)$(BUILD) $(NAME)$(RESET)"
+$(BUILD_PATH)/%.o: $(SRC_PATH)/%.c $(HEADERS)
+	@mkdir -p $(BUILD_PATH)
 	@$(CC) $(CFLAGS) -I $(INC_PATH) -c $< -o $@
-	@echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
 
 # Build libft
 $(LIB_PATH)/libft/libft.a:
@@ -103,24 +102,24 @@ $(LIB_PATH)/mlx/libmlx.a:
 	@$(MAKE) -C $(LIB_PATH)/mlx
 
 deps:
-	@echo "$(GREEN)$(BOLD)$(BUILD) $(NAME)$(RESET)"
+	@echo "$(GREEN)$(BOLD)$(BUILD) INCLUDED HEADERS $(RESET)"
 	@${CC} ${CFLAGS} -I ${INC_PATH} -MD -c $< -o $@
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
 
 clean:
-	@echo "$(RED)$(BOLD)$(CLEAN) $(NAME)$(RESET)"
+	@echo "$(RED)$(BOLD)$(CLEAN) CLEANING FILES... $(RESET)"
 	@${RM} ${BUILD_PATH}
-	@echo "$(RED)$(BOLD)$(CROSS) $(NAME) $(RED)$(BOLD)$(CLEAN)$(RESET)"
+	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS CLEANING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
 
 fclean: clean
-	@echo "$(RED)$(BOLD)$(CLEAN) $(NAME)$(RESET)"
+	@echo "$(RED)$(BOLD)$(CLEAN) REMOVING EXECUTER... $(RESET)"
 	@${RM} ${NAME}
-	@echo "$(RED)$(BOLD)$(CROSS) $(NAME) $(RED)$(BOLD)$(CLEAN)$(RESET)"
+	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS REMOVING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
 
-re: fclean all
-	@echo "$(GREEN)$(BOLD)$(BUILD) $(NAME)$(RESET)"
-	@${CC} ${CFLAGS} -o $@ $^
-	@echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
+re: 
+	@echo "$(GREEN)$(BOLD)$(BUILD) REBUILDING !$(RESET)"
+	@$(MAKE) -s fclean
+	@$(MAKE) -s all
 
 .PHONY: all clean fclean re
 

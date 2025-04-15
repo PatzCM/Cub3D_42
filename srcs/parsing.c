@@ -50,5 +50,5 @@ void	copy_map(t_data *data, int fd)
 		free(line);
 		i++;
 	}
-	data->map.map[i] = NULL;
+	/*data->map.map[i] = ft_strdup(NULL);*/
 }
