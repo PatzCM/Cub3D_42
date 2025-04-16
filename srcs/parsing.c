@@ -35,20 +35,39 @@ bool	parse_map(t_data *data)
 	return (is_valid);
 }
 
+static int	size_map(int fd)
+{
+	int i;
+	char	*line;
+
+	i = 0;
+	line = get_next_line(fd);
+	i++;
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+		i++;
+	}
+	return (i);
+}
+
 void	copy_map(t_data *data, int fd)
 {
 	int		i;
 	char	*line;
 
+	i = size_map(fd);
+	data->map.map = (char **)malloc(sizeof(char *) * (i + 1));
+	data->map.matrix = (char **)malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	while (1)
+	line = get_next_line(fd);
+	while (line)
 	{
+		data->map.map[i] = line;
+		data->map.matrix[i] = line;
 		line = get_next_line(fd);
-		if (!line)
-			break ;
-		data->map.map[i] = ft_strdup(line);
-		free(line);
-		i++;
 	}
-	/*data->map.map[i] = ft_strdup(NULL);*/
+	data->map.map[i] = NULL;
+	data->map.matrix[i] = NULL;
 }

@@ -13,4 +13,5 @@ int	main(int ac, char **av)
 	if (parse_map(data) == false)
 		return (write(1, "Error\n", 6), 1);
 
+	close(fd);
 }
