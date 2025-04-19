@@ -18,7 +18,7 @@ bool	parse_map(t_data *data)
 			{
 				if (data->map.map[row][col] != '1')
 					is_valid = false;
-				else if (data->map.max_width < col)
+				if (data->map.max_width < col)
 					data->map.max_width = col;
 			}
 			col++;
@@ -35,11 +35,20 @@ bool	parse_map(t_data *data)
 	return (is_valid);
 }
 
-static int	size_map(int fd)
+
+static int	size_map(char *file)
 {
+	int fd;
 	int i;
 	char	*line;
 
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return (-1);
+	}
 	i = 0;
 	line = get_next_line(fd);
 	i++;
@@ -49,15 +58,17 @@ static int	size_map(int fd)
 		line = get_next_line(fd);
 		i++;
 	}
-	return (i);
+	return (close(fd), i);
 }
 
-void	copy_map(t_data *data, int fd)
+void	copy_map(t_data *data, char *file)
 {
 	int		i;
+	int		fd;
 	char	*line;
-
-	i = size_map(fd);
+	
+	fd = open(file, O_RDONLY);
+	i = size_map(file);
 	data->map.map = (char **)malloc(sizeof(char *) * (i + 1));
 	data->map.matrix = (char **)malloc(sizeof(char *) * (i + 1));
 	i = 0;
@@ -67,7 +78,9 @@ void	copy_map(t_data *data, int fd)
 		data->map.map[i] = line;
 		data->map.matrix[i] = line;
 		line = get_next_line(fd);
+		i++;
 	}
 	data->map.map[i] = NULL;
 	data->map.matrix[i] = NULL;
+	close(fd);
 }

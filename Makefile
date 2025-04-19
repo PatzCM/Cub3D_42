@@ -55,7 +55,7 @@ HEADERS = $(INC_PATH)/cub3d.h
 
 SRCS = $(addprefix $(SRC_PATH)/, \
 			 main.c \
-			 parsing.c \
+			 parsing.c file_parsing.c \
 			 init_data.c)
 
 # Object files

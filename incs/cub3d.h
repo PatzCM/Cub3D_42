@@ -37,6 +37,19 @@ typedef struct s_map
 	char	**matrix;
 }	t_map;
 
+typedef struct s_map_data
+{
+	char *NO;
+	char *SO;
+	char *WE;
+	char *EA;
+	char *F;
+	char *C;
+	int color_f;
+	int color_c;
+}	t_map_data;
+
+
 typedef struct s_player
 {
 	int		x;
@@ -50,7 +63,7 @@ typedef struct s_data
 	int	player_count;
 	t_map	map;
 	t_player	player;
-
+	t_map_data	map_data;
 }
 	t_data;
 
@@ -58,9 +71,12 @@ typedef struct s_data
 //---------------------------------------------------------------------------
 // Function Prototypes
 // ---------------------------------------------------------------------------
-void	copy_map(t_data *data, int fd);
 void	init_data(t_data *data);
 bool	parse_map(t_data *data);
+void	copy_map(t_data *data, char *file);
+bool	parse_textures(t_data *data, char *line);
+void	rgb_int(t_data *data);
+void parse_cub_file(char *extension, char *file);
 
 
 #endif
