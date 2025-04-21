@@ -23,13 +23,13 @@ bool	parse_map(t_data *data)
 			}
 			col++;
 		}
-		if (data->map.map[row + 1][col] == '\0')
-		{
-			if (data->map.map[row + 1][col] != '1')
-				is_valid = false;
-			else if (data->map.max_height < row)
-				data->map.max_height = row;
-		}
+		/*if (data->map.map[row + 1][col] == '\0')*/
+		/*{*/
+		/*	if (data->map.map[row + 1][col] != '1')*/
+		/*		is_valid = false;*/
+		/*	else if (data->map.max_height < row)*/
+		/*		data->map.max_height = row;*/
+		/*}*/
 		row++;
 	}
 	return (is_valid);
@@ -77,6 +77,7 @@ void	copy_map(t_data *data, char *file)
 	{
 		data->map.map[i] = line;
 		data->map.matrix[i] = line;
+		printf("%s\n", data->map.map[i]);
 		line = get_next_line(fd);
 		i++;
 	}

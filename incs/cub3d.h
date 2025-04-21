@@ -77,6 +77,6 @@ void	copy_map(t_data *data, char *file);
 bool	parse_textures(t_data *data, char *line);
 void	rgb_int(t_data *data);
 void parse_cub_file(char *extension, char *file);
-
+void	trim_and_check(t_data *data);
 
 #endif
