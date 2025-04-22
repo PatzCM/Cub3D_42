@@ -47,6 +47,7 @@ typedef struct s_map_data
 	char *C;
 	int color_f;
 	int color_c;
+	int	line_position;
 }	t_map_data;
 
 
@@ -61,6 +62,8 @@ typedef struct s_player
 typedef struct s_data
 {
 	int	player_count;
+	char	*file;
+	int		fd;
 	t_map	map;
 	t_player	player;
 	t_map_data	map_data;
@@ -71,12 +74,12 @@ typedef struct s_data
 //---------------------------------------------------------------------------
 // Function Prototypes
 // ---------------------------------------------------------------------------
-void	init_data(t_data *data);
+void	init_data(t_data *data, char *file);
 bool	parse_map(t_data *data);
 void	copy_map(t_data *data, char *file);
-bool	parse_textures(t_data *data, char *line);
+bool	parse_textures(t_data *data);
 void	rgb_int(t_data *data);
-void parse_cub_file(char *extension, char *file);
+void	parse_cub_file(char *extension, char *file);
 void	trim_and_check(t_data *data);
 
 #endif

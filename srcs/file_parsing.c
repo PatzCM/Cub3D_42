@@ -12,19 +12,19 @@
 
 #include "../incs/cub3d.h"
 
-bool	parse_textures(t_data *data, char *file)
+bool	parse_textures(t_data *data)
 {
-	int fd;
 	char	*line;
-	int i;
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
+	static int i;
+
+	data->fd = open(data->file, O_RDONLY);
+	if (data->fd < 0)
 		return (false);
-	line = get_next_line(fd);
+	line = get_next_line(data->fd);
 	while (line)
 	{
 		i = 0;
-		while (line[i] == ' ')
+		while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
 			i++;
 		if (ft_strnstr(line, "NO", 2 + i))
 			data->map_data.NO = ft_strdup(line + (3 + i));
@@ -38,14 +38,18 @@ bool	parse_textures(t_data *data, char *file)
 			data->map_data.F = ft_strdup(line + 2 + i);
 		else if (ft_strnstr(line, "C", 1 + i))
 			data->map_data.C = ft_strdup(line + 2 + i);
-		line = get_next_line(fd);
+		else if (data->map_data.NO && data->map_data.EA 
+		&& data->map_data.SO && data->map_data.WE 
+				&& data->map_data.F && data->map_data.C)
+				break ;
+		data->map_data.line_position++;
+		line = get_next_line(data->fd);
 	}
-	return (true);
+	return (close(data->fd), true);
 }
 
 void trim_and_check(t_data *data)
 {
-	/*int i;*/
 	if (data->map_data.NO == NULL || data->map_data.EA == NULL || data->map_data.SO == NULL || data->map_data.WE == NULL)
 	{
 		write(1, "Error\nInvalid texture path\n", 27);
@@ -60,7 +64,9 @@ void trim_and_check(t_data *data)
 	data->map_data.WE = ft_strtrim(data->map_data.WE, " \n");
 	parse_cub_file(".xpm", data->map_data.WE);
 	data->map_data.F = ft_strtrim(data->map_data.F, " \n");
+	printf("F = %s\n", data->map_data.F);
 	data->map_data.C = ft_strtrim(data->map_data.C, " \n");
+	printf("C = %s\n", data->map_data.C);
 }
 
 void	rgb_int(t_data *data)
