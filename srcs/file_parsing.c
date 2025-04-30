@@ -64,9 +64,7 @@ void trim_and_check(t_data *data)
 	data->map_data.WE = ft_strtrim(data->map_data.WE, " \n");
 	parse_cub_file(".xpm", data->map_data.WE);
 	data->map_data.F = ft_strtrim(data->map_data.F, " \n");
-	printf("F = %s\n", data->map_data.F);
 	data->map_data.C = ft_strtrim(data->map_data.C, " \n");
-	printf("C = %s\n", data->map_data.C);
 }
 
 void	rgb_int(t_data *data)
