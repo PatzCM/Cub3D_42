@@ -1,60 +1,103 @@
 #include "../incs/cub3d.h"
 
-bool	parse_map(t_data *data)
+static bool	check_spaces(char **matrix)
 {
-	int		row;
-	int		col;
-	bool	is_valid;
-	
-	is_valid = FALSE;
-	row = 0;
-	col = 0;
-	while (data->map.matrix[row][col] == '1')
+	int i;
+	int j;
+
+	i = -1;
+	while (matrix[++i])
 	{
-		while (data->map.matrix[row][col + 1] == '1')
-		{
-			data->map.matrix[row][col] = 2;
-			col++;
-		}
-		while (data->map.matrix[row][col - 1] == '1' )
-		{
-			data->map.matrix[row][col] = 2;
-			col--;
-		}
-		if (row < data->map.max_height && data->map.matrix[row + 1][col] == '1' )
-		{
-			data->map.matrix[row][col] = 2;
-			row++;
-			continue;
-		}
-		if (row > 0 && data->map.matrix[row - 1][col] == '1' )
-		{
-			data->map.matrix[row][col] = 2;
-			row--;
-			continue;
-		}
-		if (col > 0 && ((data->map.matrix[row][col -1] == 2 && data->map.matrix[row][col + 1] == '\0') 
-			|| (data->map.matrix[row][col - 1] == '1' && data->map.matrix[row][col + 1] == '\0')))
-		{
-		 data->map.matrix[row][col] = 2;
-		 col--;
-		 	continue;
-		 }
-		if (data->map.matrix[row][col + 1] == 2 && data->map.matrix[row][col - 1] == '\0') 
-			/*|| (data->map.matrix[row][col + 1] == '1' && data->map.matrix[row][col - 1] == '\0'))*/
-		{
-		 data->map.matrix[row][col] = 2;
-		 col++;
-		 continue;
-		}
-		else if ((data->map.matrix[row - 1][col] == 2 && row == 1 && col == 0) || (data->map.matrix[row][col] == 2 && row == 0 && col == 0))
-			return (is_valid = TRUE);
-		else
-			break;
+		j = 0;
+		while (matrix[i][j] == ' ')
+			j++;
+		while (matrix[i][j])
+			if (matrix[i][j] == ' ')
+				if (matrix[i][j - 1] != '1' && matrix[i][j] - 1 != ' ' && matrix[i][j + 1] && matrix[i][j + 1] != ' ')...
 	}
-	return (is_valid);
 }
 
+bool	parse_map(t_data *data)
+{
+	int row;
+	int col;
+	
+	row = -1;
+	col = -1;
+
+	
+
+}
+
+/*bool	parse_map(t_data *data)*/
+/*{*/
+/*	int		row;*/
+/*	int		col;*/
+/*	bool	is_valid;*/
+/**/
+/*	is_valid = FALSE;*/
+/*	row = 0;*/
+/*	col = 0;*/
+/*	while (data->map.matrix[row][col] == ' ')*/
+/*	{*/
+/*		if (data->map.matrix[row + 1][col] == '1')*/
+/*			row++;*/
+/*		else*/
+/*			col++;*/
+/*	}*/
+/*	int *start_pos = malloc(sizeof(int) * 2);*/
+/*	start_pos[0] = row;*/
+/*	start_pos[1] = col;*/
+/*	while (data->map.matrix[row][col] == '1')*/
+/*	{*/
+/*		while (data->map.matrix[row][col + 1] == '1')*/
+/*		{*/
+/*			data->map.matrix[row][col] = 2;*/
+/*			col++;*/
+/*		}*/
+/*		while (col > 0 && data->map.matrix[row][col - 1] == '1' )*/
+/*		{*/
+/*			data->map.matrix[row][col] = 2;*/
+/*			col--;*/
+/*		}*/
+/*		if (row + 1 < data->map.max_height && data->map.matrix[row + 1][col] == '1' )*/
+/*		{*/
+/*			data->map.matrix[row][col] = 2;*/
+/*			row++;*/
+/*			continue;*/
+/*		}*/
+/*		if (row > 0 && data->map.matrix[row - 1][col] == '1' )*/
+/*		{*/
+/*			data->map.matrix[row][col] = 2;*/
+/*			row--;*/
+/*			continue;*/
+/*		}*/
+/*		if (col > 0 && ((data->map.matrix[row][col -1] == 2 && data->map.matrix[row][col + 1] == '\0') */
+/*			|| (data->map.matrix[row][col - 1] == '1' && data->map.matrix[row][col + 1] == '\0')))*/
+/*		{*/
+/*		 data->map.matrix[row][col] = 2;*/
+/*		 col--;*/
+/*		 	continue;*/
+/*		 }*/
+/*		if (data->map.matrix[row][col + 1] == 2 && data->map.matrix[row][col - 1] == '\0') */
+/*			/*|| (data->map.matrix[row][col + 1] == '1' && data->map.matrix[row][col - 1] == '\0'))*/*/
+/*		{*/
+/*		 data->map.matrix[row][col] = 2;*/
+/*		 col++;*/
+/*		 continue;*/
+/*		}*/
+/*		else if ((data->map.matrix[row - 1][col] == 2 && row == start_pos[0] - 1 && col == start_pos[1]) */
+/*			|| (data->map.matrix[row][col] == 2 && row == start_pos[0] && col == start_pos[1]))*/
+/*			return (is_valid = TRUE);*/
+/*		else*/
+/*			break;*/
+/*	}*/
+/*	return (is_valid);*/
+/*}*/
+// @brief	Function to check if the map is valid
+// @param	data	Pointer to the data structure
+// @return	Returns true if the map is valid, false otherwise
+// @note i = -2 because of the first and last line
 
 static int	size_map(char *file)
 {
@@ -69,7 +112,7 @@ static int	size_map(char *file)
 		perror("Error opening file");
 		return (-1);
 	}
-	i = 0;
+	i = -2;
 	line = get_next_line(fd);
 	i++;
 	while (line)
@@ -88,7 +131,7 @@ void	copy_map(t_data *data, char *file)
 	char	*line;
 	
 	fd = open(file, O_RDONLY);
-	i = size_map(file);
+	i = (size_map(file) - data->map_data.line_position);
 	data->map.max_height = i;
 	data->map.map = malloc(sizeof(t_map) * i);
 	data->map.matrix = malloc(sizeof(t_map) * i);
