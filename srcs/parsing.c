@@ -4,7 +4,7 @@ static bool	check_spaces(char **matrix)
 {
 	int i;
 	int j;
-
+	
 	i = -1;
 	while (matrix[++i])
 	{
@@ -12,9 +12,20 @@ static bool	check_spaces(char **matrix)
 		while (matrix[i][j] == ' ')
 			j++;
 		while (matrix[i][j])
+		{
 			if (matrix[i][j] == ' ')
-				if (matrix[i][j - 1] != '1' && matrix[i][j] - 1 != ' ' && matrix[i][j + 1] && matrix[i][j + 1] != ' ')...
+				if (matrix[i][j - 1] != '1' && matrix[i][j] - 1 != ' ' 
+			 	&& matrix[i][j + 1] && matrix[i][j + 1] != ' ' 
+				&& matrix[i][j + 1] != '1'
+			 	&& matrix[i + 1][j] && matrix[i + 1][j] != ' ' 
+				&& matrix[i + 1][j] != '1'
+			 	&& matrix[i - 1] && matrix[i - 1][j] != ' ' 
+				&& matrix[i - 1][j] != '1')
+						return (printf("Error\n invalid map spaces"), FALSE);
+			j++;
+		}
 	}
+	return (TRUE);
 }
 
 bool	parse_map(t_data *data)
@@ -24,7 +35,14 @@ bool	parse_map(t_data *data)
 	
 	row = -1;
 	col = -1;
+	
+	if (check_spaces(data->map.matrix) == FALSE)
+		return (FALSE);
 
+	while (data->map.matrix[++row])
+	{
+		while (data->map.matrix[row][col])
+	}
 	
 
 }
