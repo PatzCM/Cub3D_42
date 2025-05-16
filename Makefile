@@ -1,126 +1,114 @@
-#======================================================================#
-#                     CUB3D - A C++ 3D Game Engine                     #
-#======================================================================#
+#==============================================================================#
+#                                 Files and Paths                              #
+#==============================================================================#
 
-# This file is part of CUB3D.
-NAME = cub3D
+SRCS = $(addprefix $(SRCS_PATH)/, main.c inputs.c data_ini.c ft_exit.c game_loop.c)
 
-#------------------------------------------------------------------------------#
-#															COLORS & STYLES                                	 #
-#------------------------------------------------------------------------------#
-
-# Colors
-WHITE		= \033[0;37m
-YELLOW		= \033[0;33m
-CYAN		= \033[0;36m
-GREEN		= \033[0;32m
-RED			= \033[0;31m
-PURPLE		= \033[0;35m
-BLUE		= \033[0;34m
-RESET		= \033[0m
-
-# Styles
-BOLD		= \033[1m
-UNDERLINE	= \033[4m
-ITALIC		= \033[3m
-REVERSE		= \033[7m
-# BOLD UNDERLINE	= \033[1;4m
-#
-#Emojis
-
-CHECK = ✓
-CLEAN = 🧹
-BUILD = 🔨
-ROCKET = 🚀
-BOOK = 📚
-SPARKLES = ✨
-CHECK = 
-CHECKMARK = ✔️
-CROSS = ❌
-
-#------------------------------------------------------------------------------#
-#															FILES & PATHS                                	 	 #
-#------------------------------------------------------------------------------#
-
-# Source files
-SRC_PATH = srcs
-INC_PATH = incs
-LIB_PATH = libs
-BUILD_PATH = .build
-
-# Header files
-HEADERS = $(INC_PATH)/cub3d.h
-
-# Source files
-
-SRCS = $(addprefix $(SRC_PATH)/, \
-			 main.c \
-			 parsing.c file_parsing.c \
-			 init_data.c)
-
-# Object files
 OBJS = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
 
-# Libraries
-LIBS = $(addprefix $(LIB_PATH)/, \
-			libft/libft.a \
-			mlx/libmlx.a)
+NAME = cub3d
 
-#------------------------------------------------------------------------------#
-#															COMPILER & FLAGS                                 #
-#------------------------------------------------------------------------------#
+BUILD_PATH = .build
+SRCS_PATH = ./srcs
+LIBFT_ARC = ./libft/libft.a
+LIBFT_PATH = libft
+MLX_PATH = minilibx-linux
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+#==============================================================================#
+#                                   Alias                                      #
+#==============================================================================#
+
 RM = rm -rf
-AR = ar
+AR = ar rcs
+CFLAGS = -g -Wall -Werror -Wextra
+SILENT_MAKE = make -s extra
 
-#-----------------------------------------------------------------------------#
-#                              RULES                                          #
-#-----------------------------------------------------------------------------#
+#==============================================================================#
+#                                    Rules                                     #
+#==============================================================================#
 
-# All
-all: $(NAME)
-	@echo "$(GREEN)$(BOLD)$(CHECKMARK) BUILD COMPLETED $(GREEN)$(BOLD)$(BUILD)$(RESET)"
+all: deps $(BUILD_PATH) $(LIBFT_ARC) $(OBJS) $(NAME)
 
-${NAME}: ${OBJS} ${LIBS}
-	@echo "$(GREEN)$(BOLD)$(BUILD) BUILDING...$(RESET)"
-	@${CC} ${CFLAGS} -o $@ $(OBJS) -L$(LIB_PATH)/libft -lft -L$(LIB_PATH)/mlx -lmlx
+$(BUILD_PATH):
+	@mkdir $(BUILD_PATH)
 
-$(BUILD_PATH)/%.o: $(SRC_PATH)/%.c $(HEADERS)
-	@mkdir -p $(BUILD_PATH)
-	@$(CC) $(CFLAGS) -I $(INC_PATH) -c $< -o $@
+$(NAME): 
+	@cc $(CFLAGS) $(OBJS) $(LIBFT_ARC) -L$(MLX_PATH) -lmlx_Linux -Lusr/lib -Iminilibx-linux -lXext -lX11 -lm -lz -o $(NAME)
+	@echo "$(GRN)[Cub3d successfully compiled]$(D)"
+	
+$(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c
+	@cc $(CFLAGS) -I/usr/include -Iminilibx-linux -o $@ -c $<
 
-# Build libft
-$(LIB_PATH)/libft/libft.a:
-	@echo "$(GREEN)$(BOLD)Building libft$(RESET)"
-	@$(MAKE) -C $(LIB_PATH)/libft
+$(LIBFT_ARC): $(LIBFT_PATH)
+	@$(SILENT_MAKE) -C $(LIBFT_PATH)
 
-# Build mlx
-$(LIB_PATH)/mlx/libmlx.a:
-	@echo "$(GREEN)$(BOLD)Building mlx$(RESET)"
-	@$(MAKE) -C $(LIB_PATH)/mlx
+dominilibx: $(MLX_PATH)
+	@echo "$(MAG)[Compiling minilibx ...]$(D)"
+	@make -sC $(MLX_PATH)
+	@echo "$(MAG)[Minilibx successfully compiled!]$(D)"
 
 deps:
-	@echo "$(GREEN)$(BOLD)$(BUILD) INCLUDED HEADERS $(RESET)"
-	@${CC} ${CFLAGS} -I ${INC_PATH} -MD -c $< -o $@
-	@echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
+	@if test ! -d "$(LIBFT_PATH)"; then make -s get_libft; \
+		else echo "$(GRN)[Libft folder found]$(D)"; fi
+	@if test ! -d "$(MLX_PATH)"; then make -s get_minilibx; \
+		else echo "$(MAG)[Minilibx folder found]$(D)"; fi
+	@if test ! -d "$(MLX_PATH)/obj"; then make -s dominilibx; \
+		else echo "$(GRN)[All folders found. No relink!]$(D)"; fi
 
-clean:
-	@echo "$(RED)$(BOLD)$(CLEAN) CLEANING FILES... $(RESET)"
-	@${RM} ${BUILD_PATH}
-	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS CLEANING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
+get_libft:
+	@echo "[$(CYA)Downloading Libft$(D)]"
+	git clone git@github.com:rfpoliveira/42_Libft.git $(LIBFT_PATH)
+	@echo "$(CYA)[Libft successfully downloaded]$(D)"
+
+get_minilibx:
+	@echo "[$(MAG)Downloading Minilibx$(D)]"
+	git clone git@github.com:42Paris/minilibx-linux.git $(MLX_PATH)
+	@echo "$(MAG)[Minilibx successfully downloaded]$(D)"
+
+clean: 
+	@$(RM) $(BUILD_PATH)
+	@echo "$(BCYA)[clean] Objects removed$(D)"
 
 fclean: clean
-	@echo "$(RED)$(BOLD)$(CLEAN) REMOVING EXECUTER... $(RESET)"
-	@${RM} ${NAME}
-	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS REMOVING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
+	@$(RM) $(NAME)
+	@$(RM) $(LIB_NAME)
+	@$(RM) $(LIBFT_PATH)
+	@$(RM) $(MLX_PATH)
+	@echo "$(BCYA)[fclean] Archive, Libft and Minilibx removed$(D)"
 
-re: 
-	@echo "$(GREEN)$(BOLD)$(BUILD) REBUILDING !$(RESET)"
-	@$(MAKE) -s fclean
-	@$(MAKE) -s all
+re: fclean all
 
-.PHONY: all clean fclean re
+again: clean
+	@echo "$(BCYA)[rebuilding...]$(D)"
+	@$(RM) $(NAME)
+	@$(RM) $(LIB_NAME)
+	@$(MAKE) -s
+#==============================================================================#
+#                                  UTILS                                       #
+#==============================================================================#
 
-
+# Colors
+#
+# Run the following command to get list of available colors
+# bash -c 'for c in {0..255}; do tput setaf $c; tput setaf $c | cat -v; echo =$c; done'
+#
+B  		= $(shell tput bold)
+BLA		= $(shell tput setaf 0)
+RED		= $(shell tput setaf 1)
+GRN		= $(shell tput setaf 2)
+YEL		= $(shell tput setaf 3)
+BLU		= $(shell tput setaf 4)
+MAG		= $(shell tput setaf 5)
+CYA		= $(shell tput setaf 6)
+WHI		= $(shell tput setaf 7)
+GRE		= $(shell tput setaf 8)
+BRED 	= $(shell tput setaf 9)
+BGRN	= $(shell tput setaf 10)
+BYEL	= $(shell tput setaf 11)
+BBLU	= $(shell tput setaf 12)
+BMAG	= $(shell tput setaf 13)
+BCYA	= $(shell tput setaf 14)
+BWHI	= $(shell tput setaf 15)
+D 		= $(shell tput sgr0)
+BEL 	= $(shell tput bel)
+CLR 	= $(shell tput el 1)

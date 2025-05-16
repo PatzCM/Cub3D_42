@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palexand <palexand@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/21 15:10:08 by palexand          #+#    #+#             */
-/*   Updated: 2024/10/21 15:10:35 by palexand         ###   ########.fr       */
+/*   Created: 2025/05/16 12:31:45 by rpedrosa          #+#    #+#             */
+/*   Updated: 2025/05/16 13:13:35 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_isalnum(int alpha)
+#include "../incs/cube.h"
+
+int	ft_exit(t_data *data)
 {
-	if ((alpha >= 'a' && alpha <= 'z')
-		|| (alpha >= 'A' && alpha <= 'Z')
-		|| (alpha >= '0' && alpha <= '9'))
-		return (1);
-	else
-		return (0);
+	if (data->win)
+		mlx_destroy_window(data->mlx, data->win);
+	if (data->mlx)
+	{
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
+	}
+	if (data)
+		free(data);
+	exit(0);
 }

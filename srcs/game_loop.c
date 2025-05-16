@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palexand <palexand@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 17:49:58 by palexand          #+#    #+#             */
-/*   Updated: 2024/10/22 17:50:38 by palexand         ###   ########.fr       */
+/*   Created: 2025/05/16 12:02:23 by rpedrosa          #+#    #+#             */
+/*   Updated: 2025/05/16 14:17:10 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_isascii(int c)
+#include "../incs/cube.h"
+
+void	raycaster(t_data *data)
 {
-	if (c >= 0 && c <= 127)
-		return (1);
-	else
-		return (0);
+	int x;
+
+	x = -1;
+	while (1)
+	{
+		while (++x < screenWidth)
+		{
+			calculate_ray_Dir(data);
+			calculate_next(data);
+			calculate_side(data);
+			check_walls(data);
+		}
+	}
 }

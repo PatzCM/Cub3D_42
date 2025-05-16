@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   inputs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palexand <palexand@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 18:30:11 by palexand          #+#    #+#             */
-/*   Updated: 2024/11/05 18:31:21 by palexand         ###   ########.fr       */
+/*   Created: 2025/05/16 12:27:31 by rpedrosa          #+#    #+#             */
+/*   Updated: 2025/05/16 12:49:03 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
+#include "../incs/cube.h"
 
-	i = 0;
-	while (s[i] != '\0')
-	{
-		write(fd, &s[i++], 1);
-	}
-}
-/*
-int	main (void)
+static int	keystroke(int keycode, t_data *data)
 {
-	char *str = "Hello, World!";
-	ft_putstr_fd(str, 1);
+	if (keycode == XK_Escape)
+		ft_exit(data);
 	return (0);
 }
-*/
+
+void	handle_inputs(t_data *data)
+{
+	mlx_hook(data->win, 2, 1L << 0, keystroke, data);
+	mlx_hook(data->win, 17, 1L << 17, ft_exit, data);
+}
