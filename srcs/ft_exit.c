@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:31:45 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/16 13:13:35 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:09:04 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ int	ft_exit(t_data *data)
 		mlx_destroy_display(data->mlx);
 		free(data->mlx);
 	}
+	if (data->vars)
+		free(data->vars);
+	if (data->draw)
+		free(data->draw);
 	if (data)
 		free(data);
 	exit(0);

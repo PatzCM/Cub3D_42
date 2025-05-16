@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:08:51 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/16 14:09:46 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:08:29 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,19 @@ static void	window_ini(t_data *data)
 		ft_exit(data);
 }
 
+static void	draw_ini(t_data *data)
+{
+	data->draw->end = 0;
+	data->draw->start = 0;
+	data->draw->line_h = 0;
+}
+
 static void	vars_ini(t_data *data)
 {
 	data->vars->camera_X = 0;
 	data->vars->ray_DirX = 0;
 	data->vars->win_w = screenWidth;
+	data->vars->win_h = screenHeight;
 	data->vars->mapX = data->pos_X;
 	data->vars->mapY = data->pos_Y;
 	data->vars->side_X = 0;
@@ -34,6 +42,7 @@ static void	vars_ini(t_data *data)
 	data->vars->dir_stepY = 0;
 	data->vars->side_hit = 0;
 	data->vars->hit = 0;
+	data->vars->wall_dist = 0;
 }
 /**
 	@brief inicicializes the main data struct
@@ -60,5 +69,10 @@ void	data_ini(t_data *data)
 	data->plane_Y = 0.66;
 	data->curr_time = 0;
 	data->old_time = 0;
+	data->vars = malloc(sizeof(t_calc_vars));
+	data->draw = malloc(sizeof(t_draw_calc));
+	if (!data->vars || !data->draw)
+		ft_exit(data);
 	vars_ini(data);
+	draw_ini(data);
 }

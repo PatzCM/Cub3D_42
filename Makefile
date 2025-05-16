@@ -2,7 +2,7 @@
 #                                 Files and Paths                              #
 #==============================================================================#
 
-SRCS = $(addprefix $(SRCS_PATH)/, main.c inputs.c data_ini.c ft_exit.c game_loop.c)
+SRCS = $(addprefix $(SRCS_PATH)/, main.c inputs.c data_ini.c ft_exit.c game_loop.c calculation.c draw.c)
 
 OBJS = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
 
