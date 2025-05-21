@@ -11,20 +11,32 @@
 #                                 Libraries                                   #
 #============================================================================*/
 
-#include <math.h>
+# include <math.h>
+# include <sys/time.h>
 # include <X11/keysym.h>
-#include "../libft/libft.h"
+# include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
+# include <stdbool.h>
 
 /*============================================================================#
 #                                 Structs                                     #
 #============================================================================*/
+
+typedef	struct	s_img
+{
+	void	*img;
+	char	*addr;
+	int		line_len;
+	int		bpp;
+	int		flag;
+}	t_img;
 
 typedef struct s_draw_calc
 {
 	int	line_h;
 	int start;
 	int	end;
+	t_img img;
 }	t_draw_calc;
 
 typedef struct s_calc_vars
@@ -49,7 +61,7 @@ typedef struct s_calc_vars
 
 typedef struct s_data
 {
-	int ***worldmap;
+	int **worldMap;
 	void	*mlx;
 	void	*win;
 	double	pos_X;
@@ -60,6 +72,8 @@ typedef struct s_data
 	double	dir_vec_Y;
 	double	curr_time;
 	double	old_time;
+	double	delta_time;
+	bool	keys[4];
 	t_calc_vars *vars;
 	t_draw_calc *draw;
 }	t_data;
@@ -72,18 +86,26 @@ void	data_ini(t_data *data);
 
 //inputs
 void	handle_inputs(t_data *data);
+int	key_release(int keycode, t_data *data);
+int	key_press(int keycode, t_data *data);
 
 //calculations
-void	raycaster(t_data *data, int worldMap[24][24]);
+void	raycaster(t_data *data);
 void	calculate_ray_Dir(t_data *data, int x);
 void	calculate_perpendicular(t_data *data);
-void	check_walls(t_data *data, int worldMap[24][24]);
+void	check_walls(t_data *data);
 void	calculate_side(t_data *data);
 void	calculate_next(t_data *data);
 void	calculate_lines(t_data *data);
 
 //draw
-void	draw_line(t_data *data, int x, int worldMap[24][24]);
+void	draw_line(t_data *data, int x);
+void	img_ini(t_data *data);
+void	clear_img(t_data *data, int color);
+
+//fps
+void	fps_counter(t_data *data);
+
 
 //memory
 int		ft_exit(t_data *data);

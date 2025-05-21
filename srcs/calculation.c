@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 13:39:54 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/16 18:05:40 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:21:04 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	calculate_ray_Dir(t_data *data, int x)
 {
-	data->vars->camera_X = (2 * x) / (data->vars->win_w - 1);
-	data->vars->ray_DirX = data->dir_vec_X + (data->plane_X * data->vars->camera_X);
-	data->vars->ray_DirY = data->dir_vec_Y + (data->plane_Y * data->vars->camera_X);
+	data->vars->camera_X = 2 * x / data->vars->win_w - 1;
+	data->vars->ray_DirX = data->dir_vec_X + data->plane_X * data->vars->camera_X;
+	data->vars->ray_DirY = data->dir_vec_Y + data->plane_Y * data->vars->camera_X;
 }
 void	calculate_next(t_data *data)
 {
-	if (data->vars->ray_DirX == 0)
+	if (fabs(data->vars->ray_DirX) < 1e-9)
 		data->vars->next_X = 1e30;
 	else
 		data->vars->next_X = fabs(1 / data->vars->ray_DirX);
-	if (data->vars->ray_DirY == 0)
+	if (fabs(data->vars->ray_DirY) < 1e-9)
 		data->vars->next_Y = 1e30;
 	else
 		data->vars->next_Y = fabs(1 / data->vars->ray_DirY);
@@ -43,7 +43,7 @@ void	calculate_side(t_data *data)
 	else
 	{
 	  vars->dir_stepX = 1;
-	  vars->side_X = (vars->mapX + 1 - data->pos_X) * vars->next_X;
+	  vars->side_X = (vars->mapX + 1.0 - data->pos_X) * vars->next_X;
 	}
 	if (vars->ray_DirY < 0)
 	{
@@ -53,10 +53,10 @@ void	calculate_side(t_data *data)
 	else
 	{
 	  vars->dir_stepY = 1;
-	  vars->side_Y = (vars->mapY + 1 - data->pos_Y) * vars->next_Y;
+	  vars->side_Y = (vars->mapY + 1.0 - data->pos_Y) * vars->next_Y;
 	}
 }
-void	check_walls(t_data *data, int worldMap[24][24])
+void	check_walls(t_data *data)
 {
 	t_calc_vars *vars;
 
@@ -75,7 +75,7 @@ void	check_walls(t_data *data, int worldMap[24][24])
 			vars->mapY += vars->dir_stepY;
 			vars->side_hit = 1;
 		}
-		if (worldMap[vars->mapX][vars->mapY] > 0)
+		if (data->worldMap[vars->mapX][vars->mapY] > 0)
 			vars->hit = 1;
 	}
 }
