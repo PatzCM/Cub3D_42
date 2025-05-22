@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:22:01 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/21 18:32:37 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:02:41 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	game_loop(t_data *data)
 		clear_img(data, 0x00FF80);
 		handle_inputs(data);
 		raycaster(data);
-		mlx_put_image_to_window(data->mlx, data->win, data->draw->img.img, 0, 0);
+		mlx_put_image_to_window(data->mlx, data->win, data->draw->img_buffer->img, 0, 0);
 		fps_counter(data);
 		return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:23 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/20 15:05:40 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:03:00 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ void	raycaster(t_data *data)
 		check_walls(data);
 		calculate_perpendicular(data);
 		calculate_lines(data);
-		draw_line(data, x);
+		calculate_texture_X(data, x);
 	}
 }

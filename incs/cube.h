@@ -2,16 +2,20 @@
 #ifndef CUBE_H
 # define CUBE_H
 
+# define tex_numb 4
+# define texture_w 64
+# define texture_h 64
 # define mapWidth 24
 # define mapHeight 24
-# define screenWidth 640
-# define screenHeight 480
+# define screenWidth 1280
+# define screenHeight 720
 
 /*============================================================================#
 #                                 Libraries                                   #
 #============================================================================*/
 
 # include <math.h>
+# include <stdint.h>
 # include <sys/time.h>
 # include <X11/keysym.h>
 # include "../libft/libft.h"
@@ -28,7 +32,7 @@ typedef	struct	s_img
 	char	*addr;
 	int		line_len;
 	int		bpp;
-	int		flag;
+	int		endian;
 }	t_img;
 
 typedef struct s_draw_calc
@@ -36,7 +40,10 @@ typedef struct s_draw_calc
 	int	line_h;
 	int start;
 	int	end;
-	t_img img;
+	int tex_w;
+	int tex_h;
+	t_img *img_buffer;
+	t_img textures[4];
 }	t_draw_calc;
 
 typedef struct s_calc_vars
@@ -57,6 +64,8 @@ typedef struct s_calc_vars
 	int		hit;
 	int		side_hit;
 	double	wall_dist;
+	double	wall_X;
+	int	texture_X;
 }	t_calc_vars;
 
 typedef struct s_data
@@ -83,6 +92,7 @@ typedef struct s_data
 
 //inicializacion
 void	data_ini(t_data *data);
+void	ini_texture(t_data *data);
 
 //inputs
 void	handle_inputs(t_data *data);
@@ -99,13 +109,12 @@ void	calculate_next(t_data *data);
 void	calculate_lines(t_data *data);
 
 //draw
-void	draw_line(t_data *data, int x);
-void	img_ini(t_data *data);
+void	calculate_texture_X(t_data *data, int x);
 void	clear_img(t_data *data, int color);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //fps
 void	fps_counter(t_data *data);
-
 
 //memory
 int		ft_exit(t_data *data);
