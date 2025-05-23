@@ -9,6 +9,9 @@
 # define mapHeight 24
 # define screenWidth 640
 # define screenHeight 320
+# define cntls_numb 7
+# define minimap_w (screenWidth / 4)
+# define minimap_h (screenHeight / 4 * (screenWidth / screenHeight))
 
 /*============================================================================#
 #                                 Libraries                                   #
@@ -42,6 +45,11 @@ typedef struct s_draw_calc
 	int	end;
 	int tex_w;
 	int tex_h;
+	int	startx;
+	int starty;
+	int endx;
+	int endy;
+	t_img *minimap;
 	t_img *img_buffer;
 	t_img textures[4];
 }	t_draw_calc;
@@ -82,7 +90,7 @@ typedef struct s_data
 	double	curr_time;
 	double	old_time;
 	double	delta_time;
-	bool	controls[6];
+	bool	controls[cntls_numb];
 	t_calc_vars *vars;
 	t_draw_calc *draw;
 }	t_data;
@@ -110,8 +118,12 @@ void	calculate_lines(t_data *data);
 
 //draw
 void	calculate_texture_X(t_data *data, int x);
-void	clear_img(t_data *data, int color);
+void	clear_img(t_data *data, int ceiling_color, int floor_color);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+//minimap
+void	ini_minimap(t_data *data);
+void	draw_minimap(t_data *data);
 
 //fps
 void	fps_counter(t_data *data);

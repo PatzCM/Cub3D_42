@@ -6,18 +6,34 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 13:39:54 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/21 18:21:04 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:42:07 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
 
+/**
+	@brief calculates the camera_X and ray directions
+	
+	camera_X is the x coordenate on the camera plane(center of the screen
+	is 0, right will get 1 and left will get -1)
+	ray_dir x and y will be then calculated by adding the direction vector
+	and a part of the plane vector. 
+ */
 void	calculate_ray_Dir(t_data *data, int x)
 {
 	data->vars->camera_X = 2 * x / data->vars->win_w - 1;
 	data->vars->ray_DirX = data->dir_vec_X + data->plane_X * data->vars->camera_X;
 	data->vars->ray_DirY = data->dir_vec_Y + data->plane_Y * data->vars->camera_X;
 }
+
+/**
+	@brief this calculates the distance from the next line of the grid
+	to the next of that
+	
+	if ray_dir is 0 the division is not possible so we set it to
+	a very high value so we can calculate it  
+ */
 void	calculate_next(t_data *data)
 {
 	if (fabs(data->vars->ray_DirX) < 1e-9)
@@ -29,7 +45,11 @@ void	calculate_next(t_data *data)
 	else
 		data->vars->next_Y = fabs(1 / data->vars->ray_DirY);
 }
-
+/**
+	@brief this calculates the distance from the player to the next
+	x or y of the grid and stores a value in dir_step so we know
+	the direction we are hitting the wall from
+ */
 void	calculate_side(t_data *data)
 {
 	t_calc_vars *vars;
@@ -56,6 +76,11 @@ void	calculate_side(t_data *data)
 	  vars->side_Y = (vars->mapY + 1.0 - data->pos_Y) * vars->next_Y;
 	}
 }
+
+/**
+	@brief this is the DDA algorithm that will increment 
+	side until we hit a wall 
+ */
 void	check_walls(t_data *data)
 {
 	t_calc_vars *vars;
@@ -79,7 +104,10 @@ void	check_walls(t_data *data)
 			vars->hit = 1;
 	}
 }
-
+/**
+	@brief now that we hit a wall we calculate the distant of the wall
+	to the plane and not the plane to avoid fisheye effect
+ */
 void	calculate_perpendicular(t_data *data)
 {
 	t_calc_vars *vars;

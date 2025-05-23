@@ -1,17 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_loop.c                                        :+:      :+:    :+:   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:23 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/22 18:03:00 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:10:55 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
 
+/**
+	@brief  resets in each raycasting loop iteration
+	the need variables to ensure there is a correct
+	calculation everytime
+ */
 static void	reset_vars(t_data *data)
 {
 		data->vars->hit = 0;
@@ -29,6 +34,10 @@ static void	reset_vars(t_data *data)
 		data->vars->side_X = 0;
 		data->vars->side_Y = 0;
 }
+/**
+	@brief main raycasting loop calling many helper functions
+	to make all the needed calculacions 
+ */
 void	raycaster(t_data *data)
 {
 	int x;
@@ -44,5 +53,7 @@ void	raycaster(t_data *data)
 		calculate_perpendicular(data);
 		calculate_lines(data);
 		calculate_texture_X(data, x);
+		if (data->controls[6])
+			draw_minimap(data);
 	}
 }

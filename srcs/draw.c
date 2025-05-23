@@ -6,12 +6,17 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:32:17 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/22 19:11:12 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:52:28 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
 
+
+/**
+	@brief now we calculate the height of the wall considering the window
+	calculates the beggining and ending pixels as well to use later
+ */
 void	calculate_lines(t_data *data)
 {
 	t_draw_calc *draw;
@@ -28,6 +33,9 @@ void	calculate_lines(t_data *data)
 		draw->end = vars->win_h - 1;
 }
 
+/**
+	@brief this function copies the correct pixels from the textures to the buffer
+ */
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char *dst;
@@ -38,7 +46,11 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	clear_img(t_data *data, int color)
+/**
+	@brief clears every pixel making it the default color
+ */
+
+void	clear_img(t_data *data, int ceiling_color, int floor_color)
 {
 	int i;
 	int j;
@@ -48,7 +60,9 @@ void	clear_img(t_data *data, int color)
 	while (++i < data->vars->win_w)
 	{
 		j = -1;
+		while (++j < data->vars->win_h / 2)
+			my_mlx_pixel_put(data->draw->img_buffer, i, j, ceiling_color);
 		while (++j < data->vars->win_h)
-			my_mlx_pixel_put(data->draw->img_buffer, i, j, color);
+			my_mlx_pixel_put(data->draw->img_buffer, i, j, floor_color);
 	}
 }

@@ -6,12 +6,17 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:12:08 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/22 19:06:15 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:48:34 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
 
+/**
+	@brief selects the texture we want to put on the wall depending on
+	geographical orientation then get the color of the exact pixel we want
+	from that texture and puts in the buffer
+ */
 static void	texture_selector(t_data *data, double step, double pos_tex, int x)
 {
 	int y;
@@ -38,7 +43,10 @@ static void	texture_selector(t_data *data, double step, double pos_tex, int x)
 		my_mlx_pixel_put(data->draw->img_buffer, x, y, color);
 	}
 }
-
+/**
+	@brief calculates the correct piece of texture we need to input in place with the
+	right height considering distance and the window
+ */
 void	calculate_texture_X(t_data *data, int x)
 {
 	double	step;
@@ -58,6 +66,10 @@ void	calculate_texture_X(t_data *data, int x)
 	pos_tex = (data->draw->start - data->vars->win_h / 2 + data->draw->line_h / 2) * step;
 	texture_selector(data, step, pos_tex, x);
 }
+
+/**
+	@brief inicializes all the textures to images in memory
+ */
 static void	texture_to_image(t_data *data)
 {
 	data->draw->textures[0].img = mlx_xpm_file_to_image(data->mlx, "textures/bluestone.xpm", &data->draw->tex_w, &data->draw->tex_h);
@@ -73,6 +85,12 @@ static void	texture_to_image(t_data *data)
 	if (!(data->draw->textures[3].img))
 		ft_exit(data);
 }
+
+/**
+	@brief inicializes all the textures to images 
+	and gets the information we need to get the pixels we want to
+	draw
+ */
 void	ini_texture(t_data *data)
 {
 	int	i;

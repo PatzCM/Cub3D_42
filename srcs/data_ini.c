@@ -6,22 +6,36 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:08:51 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/23 12:06:05 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:08:32 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
 
+/**
+	@brief inicializes all the control to the default (not being pressed)
+ */
 static void	controls_ini(t_data *data)
 {
-	data->controls[0] = false;
-	data->controls[1] = false;
-	data->controls[2] = false;
-	data->controls[3] = false;
-	data->controls[4] = false;
-	data->controls[5] = false;
+	int	i;
+
+	i = -1;
+	while (++i < (int)cntls_numb)
+		data->controls[i] = false;
 }
 
+/** 
+	@brief inializes a couple variables we need to the raycasting algorithm
+
+	pos X and Y are the inicial positions
+	curr and old time are to calculate fps
+	win_w and h are the windowns dimensions
+	delta_time is the time of the last frame to make sure the movement 
+	is independent of the fps
+	dir_vec_X and Y are the direction vectors
+	plane X and Y is the pov (screen)
+	side_X and Y are TODO
+*/
 static void	vars_ini(t_data *data)
 {
 	data->pos_X = 22;
@@ -39,6 +53,14 @@ static void	vars_ini(t_data *data)
 	data->vars->side_Y = 0;
 }
 
+/**
+	@brief inicializes some variables we need to draw the frames
+
+	the img_buffer will store every pixel we get from the raycasting
+	end and start are the pixel we start and end to form the line with the raycasting
+	line_h is the height of that line
+	tex_h and tex_w are the dimensions in pixel of the textures
+ */
 static void	draw_ini(t_data *data)
 {
 	data->draw->img_buffer->img = mlx_new_image(data->mlx, data->vars->win_w, data->vars->win_h);
@@ -55,7 +77,11 @@ static void	draw_ini(t_data *data)
 	data->draw->start = 0;
 	data->draw->line_h = 0;
 	data->draw->tex_h = 64;
-	data->draw->tex_h = 64;
+	data->draw->tex_w = 64;
+	data->draw->startx = (int)screenWidth / 10;
+	data->draw->endx = data->draw->startx + (int)minimap_w;
+	data->draw->starty = (int)screenHeight - (int)screenHeight / 10 - (int)minimap_h;
+	data->draw->endy = data->draw->starty + (int)minimap_h;
 }
 static void	window_ini(t_data *data)
 {
@@ -64,14 +90,7 @@ static void	window_ini(t_data *data)
 		ft_exit(data);
 }
 /**
-	@brief inicicializes the main data struct
-	
-	pos_X and pos_Y are the player start position
-	dir_vec_X and Y are the direction of the first vector
-	plane X and Y make the 2d plane to use in the raycasting
-	curr_time is the time of the current frame
-	old_time is the time of the last frame
-	@param data is the main data struct
+	@brief inicicializes the main data struct will helper functions
  */
 
 void	data_ini(t_data *data)
@@ -126,4 +145,5 @@ void	data_ini(t_data *data)
 	controls_ini(data);
 	draw_ini(data);
 	ini_texture(data);
+	ini_minimap(data);
 }

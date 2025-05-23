@@ -6,15 +6,24 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:22:01 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/22 19:02:41 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:34:38 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
 
+/**
+	@brief this is the loop that produces everyframe
+	
+	clear_img clear the screen ready to put the new frame in
+	handle_inputs will check if any keys being pressed
+	raycaster will generate the correct frame
+	we put it in the window
+	then calculate and display the fps
+ */
 int	game_loop(t_data *data)
 {
-		clear_img(data, 0x00FF80);
+		clear_img(data, 0x00FF80, 0x000000);
 		handle_inputs(data);
 		raycaster(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->draw->img_buffer->img, 0, 0);
