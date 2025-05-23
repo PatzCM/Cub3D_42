@@ -6,18 +6,20 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:08:51 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/22 19:07:47 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:06:05 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
 
-static void	keys_ini(t_data *data)
+static void	controls_ini(t_data *data)
 {
-	data->keys[0] = false;
-	data->keys[1] = false;
-	data->keys[2] = false;
-	data->keys[3] = false;
+	data->controls[0] = false;
+	data->controls[1] = false;
+	data->controls[2] = false;
+	data->controls[3] = false;
+	data->controls[4] = false;
+	data->controls[5] = false;
 }
 
 static void	vars_ini(t_data *data)
@@ -121,7 +123,7 @@ void	data_ini(t_data *data)
 	if (!data->draw->img_buffer)
 		ft_exit(data);
 	vars_ini(data);
-	keys_ini(data);
+	controls_ini(data);
 	draw_ini(data);
 	ini_texture(data);
 }

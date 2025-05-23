@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:31:45 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/22 18:59:36 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:21:48 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_exit(t_data *data)
 	i = -1;
 	if (data->worldMap)
 	{
-		while (data->worldMap[++i])
+		while (++i < mapWidth)
 			free(data->worldMap[i]);
 		free(data->worldMap);
 	}

@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:27:31 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/21 17:53:41 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:12:58 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,34 @@ int	key_press(int keycode, t_data *data)
 	if (keycode == XK_Escape)
 		ft_exit(data);
 	else if (keycode == XK_w || keycode == XK_Up)
-		data->keys[0] = true;
+		data->controls[0] = true;
 	else if (keycode == XK_s || keycode == XK_Down)
-		data->keys[1] = true;
-	else if (keycode == XK_a || keycode == XK_Left)
-		data->keys[2] = true;
-	else if (keycode == XK_d || keycode == XK_Right)
-		data->keys[3] = true;
+		data->controls[1] = true;
+	else if (keycode == XK_a)
+		data->controls[2] = true;
+	else if (keycode == XK_d)
+		data->controls[3] = true;
+	else if (keycode == XK_Left)
+		data->controls[4] = true;
+	else if (keycode == XK_Right)
+		data->controls[5] = true;
 	return (0);
 }
 
 int	key_release(int keycode, t_data *data)
 {
 	if (keycode == XK_w || keycode == XK_Up)
-		data->keys[0] = false;
+		data->controls[0] = false;
 	else if (keycode == XK_s || keycode == XK_Down)
-		data->keys[1] = false;
-	else if (keycode == XK_a || keycode == XK_Left)
-		data->keys[2] = false;
-	else if (keycode == XK_d || keycode == XK_Right)
-		data->keys[3] = false;
+		data->controls[1] = false;
+	else if (keycode == XK_a)
+		data->controls[2] = false;
+	else if (keycode == XK_d)
+		data->controls[3] = false;
+	else if (keycode == XK_Left)
+		data->controls[4] = false;
+	else if (keycode == XK_Right)
+		data->controls[5] = false;
 	return (0);
 }
 
@@ -47,21 +55,51 @@ void	handle_inputs(t_data *data)
 	double	old_Dir;
 	double	old_PlaneX;
 	
-	if (data->keys[0])
+	if (data->controls[0])
 	{
-		if (data->worldMap[(int)(data->pos_X + data->dir_vec_X * movespeed)][(int)data->pos_Y] == 0)
+		if (data->worldMap[(int)(data->pos_X + data->dir_vec_X * movespeed)][(int)data->pos_Y] == 0
+			&& data->worldMap[(int)((data->pos_X + data->dir_vec_X * movespeed) + 0.1)][(int)(data->pos_Y + 0.1)] == 0
+			&& data->worldMap[(int)((data->pos_X + data->dir_vec_X * movespeed) - 0.1)][(int)(data->pos_Y + 0.1)] == 0)
 			data->pos_X += data->dir_vec_X * movespeed;
-		if (data->worldMap[(int)(data->pos_X)][(int)(data->pos_Y + data->dir_vec_Y * movespeed)] == 0)
+		if (data->worldMap[(int)(data->pos_X)][(int)(data->pos_Y + data->dir_vec_Y * movespeed)] == 0
+			&& data->worldMap[(int)((data->pos_X) + 0.1)][(int)((data->pos_Y + data->dir_vec_Y * movespeed) + 0.1)] == 0
+			&& data->worldMap[(int)((data->pos_X) - 0.1)][(int)((data->pos_Y + data->dir_vec_Y * movespeed) - 0.1)] == 0)
 			data->pos_Y += data->dir_vec_Y * movespeed;
 	}
-	if (data->keys[1])
+	if (data->controls[1])
 	{
-		if (data->worldMap[(int)(data->pos_X - data->dir_vec_X * movespeed)][(int)data->pos_Y] == 0)
+		if (data->worldMap[(int)(data->pos_X - data->dir_vec_X * movespeed)][(int)data->pos_Y] == 0
+			&& data->worldMap[(int)((data->pos_X - data->dir_vec_X * movespeed) + 0.1)][(int)(data->pos_Y + 0.1)] == 0
+			&& data->worldMap[(int)((data->pos_X - data->dir_vec_X * movespeed) - 0.1)][(int)(data->pos_Y - 0.1)] == 0)
 			data->pos_X += -data->dir_vec_X * movespeed;
-		if (data->worldMap[(int)(data->pos_X)][(int)(data->pos_Y - data->dir_vec_Y * movespeed)] == 0)
+		if (data->worldMap[(int)(data->pos_X)][(int)(data->pos_Y - data->dir_vec_Y * movespeed)] == 0
+			&& data->worldMap[(int)((data->pos_X) + 0.1)][(int)((data->pos_Y - data->dir_vec_Y * movespeed) + 0.1)] == 0
+			&& data->worldMap[(int)((data->pos_X) - 0.1)][(int)((data->pos_Y - data->dir_vec_Y * movespeed) - 0.1)] == 0)
 			data->pos_Y += -data->dir_vec_Y * movespeed;
 	}
-	if(data->keys[2])
+	if (data->controls[2])
+	{
+		if (data->worldMap[(int)(data->pos_X + (-data->dir_vec_Y) * movespeed)][(int)data->pos_Y] == 0
+			&& data->worldMap[(int)((data->pos_X + (-data->dir_vec_Y) * movespeed) + 0.1)][(int)(data->pos_Y + 0.1)] == 0
+			&& data->worldMap[(int)((data->pos_X + (-data->dir_vec_Y) * movespeed) - 0.1)][(int)(data->pos_Y - 0.1)] == 0)
+			data->pos_X += (-data->dir_vec_Y) * movespeed;
+		if (data->worldMap[(int)(data->pos_X)][(int)(data->pos_Y + data->dir_vec_X * movespeed)] == 0
+			&& data->worldMap[(int)((data->pos_X) + 0.1)][(int)((data->pos_Y + data->dir_vec_X * movespeed) + 0.1)] == 0
+			&& data->worldMap[(int)((data->pos_X) - 0.1)][(int)((data->pos_Y + data->dir_vec_X * movespeed) - 0.1)] == 0)
+			data->pos_Y += data->dir_vec_X * movespeed;
+	}
+	if (data->controls[3])
+	{
+		if (data->worldMap[(int)(data->pos_X + data->dir_vec_Y * movespeed)][(int)data->pos_Y] == 0
+			&& data->worldMap[(int)((data->pos_X + data->dir_vec_Y * movespeed) + 0.1)][(int)(data->pos_Y + 0.1)] == 0
+			&& data->worldMap[(int)((data->pos_X + data->dir_vec_Y * movespeed) - 0.1)][(int)(data->pos_Y - 0.1)] == 0)
+			data->pos_X += data->dir_vec_Y * movespeed;
+		if (data->worldMap[(int)(data->pos_X)][(int)(data->pos_Y + (-data->dir_vec_Y) * movespeed)] == 0
+			&& data->worldMap[(int)((data->pos_X) + 0.1)][(int)((data->pos_Y + (-data->dir_vec_Y) * movespeed) + 0.1)] == 0
+			&& data->worldMap[(int)((data->pos_X) - 0.1)][(int)((data->pos_Y + (-data->dir_vec_Y) * movespeed) - 0.1)] == 0)
+			data->pos_Y += -(data->dir_vec_X) * movespeed;
+	}
+	if(data->controls[4])
 	{
 		old_Dir = data->dir_vec_X;
 		data->dir_vec_X = data->dir_vec_X * cos(rotspeed) - data->dir_vec_Y * sin(rotspeed);
@@ -70,7 +108,7 @@ void	handle_inputs(t_data *data)
 		data->plane_X = data->plane_X * cos(rotspeed) - data->plane_Y * sin(rotspeed);
 		data->plane_Y = old_PlaneX * sin(rotspeed) + data->plane_Y * cos(rotspeed);
 	}
-	if(data->keys[3])
+	if(data->controls[5])
 	{
 		old_Dir = data->dir_vec_X;
 		data->dir_vec_X = data->dir_vec_X * cos(-rotspeed) - data->dir_vec_Y * sin(-rotspeed);

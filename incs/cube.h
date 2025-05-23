@@ -7,8 +7,8 @@
 # define texture_h 64
 # define mapWidth 24
 # define mapHeight 24
-# define screenWidth 1280
-# define screenHeight 720
+# define screenWidth 640
+# define screenHeight 320
 
 /*============================================================================#
 #                                 Libraries                                   #
@@ -82,7 +82,7 @@ typedef struct s_data
 	double	curr_time;
 	double	old_time;
 	double	delta_time;
-	bool	keys[4];
+	bool	controls[6];
 	t_calc_vars *vars;
 	t_draw_calc *draw;
 }	t_data;
