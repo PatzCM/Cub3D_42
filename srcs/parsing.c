@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: palexand <palexand@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 22:11:18 by palexand          #+#    #+#             */
+/*   Updated: 2025/05/24 22:11:21 by palexand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/cub3d.h"
 
 static bool	check_spaces(char **matrix)
@@ -42,10 +54,15 @@ bool	parse_map(t_data *data)
 	while (data->map.matrix[++row])
 	{
 		while (data->map.matrix[row][col])
+			if (data->map.matrix[row][col] == ' ')
+				col++;
+
 	}
 	
 
 }
+
+
 
 /*bool	parse_map(t_data *data)*/
 /*{*/
