@@ -1,48 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 11:22:01 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/23 15:34:38 by rpedrosa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../incs/cub3d.h"
 
-#include "../incs/cube.h"
-
-/**
-	@brief this is the loop that produces everyframe
-	
-	clear_img clear the screen ready to put the new frame in
-	handle_inputs will check if any keys being pressed
-	raycaster will generate the correct frame
-	we put it in the window
-	then calculate and display the fps
- */
-int	game_loop(t_data *data)
+int	main(int ac, char **av)
 {
-		clear_img(data, 0x00FF80, 0x000000);
-		handle_inputs(data);
-		raycaster(data);
-		mlx_put_image_to_window(data->mlx, data->win, data->draw->img_buffer->img, 0, 0);
-		fps_counter(data);
-		return (0);
-}
+	t_data	*data;
+	data = (t_data *)malloc(sizeof(t_data));
+	if (!data || ac != 2)
+		return (write(1, "Error\n", 6), 1);
+	init_data(data, av[1]);
+	parse_cub_file(".cub", av[1]);
+	parse_textures(data);
+	trim_and_check(data);
+	rgb_int(data);
+	copy_map(data, av[1]);
+	if (parse_map(data) == false)
+		return (write(1, "Error\n", 6), 1);
 
-int main (void)
-{
-	t_data *data;
-	
-	data = malloc(sizeof(t_data));
-	if (!data)
-		ft_exit(data);
-	data_ini(data);
-	mlx_hook(data->win, 2, 1L << 0, key_press, data);
-	mlx_hook(data->win, 3, 1L << 1, key_release, data);
-	mlx_hook(data->win, 17, 1L << 17, ft_exit, data);
-	mlx_loop_hook(data->mlx, &game_loop, data);
-	mlx_loop(data->mlx);
 }
-
