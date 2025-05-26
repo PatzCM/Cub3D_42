@@ -12,7 +12,7 @@ int	main(int ac, char **av)
 	trim_and_check(data);
 	rgb_int(data);
 	copy_map(data, av[1]);
-	if (parse_map(data) == false)
+	if (parse_map(data->map.map) == TRUE)
 		return (write(1, "Error\n", 6), 1);
 
 }

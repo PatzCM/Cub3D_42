@@ -40,34 +40,91 @@ static bool	check_spaces(char **matrix)
 	return (TRUE);
 }
 
-bool	parse_map(t_data *data)
+static bool check_map_borders(char *line)
 {
-	int row;
-	int col;
-	
-	row = -1;
-	col = -1;
-	
-	if (check_spaces(data->map.matrix) == FALSE)
+	int i;
+	int j;
+	i = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (ft_strlen(line) < 3 && line[i] != '1')
 		return (FALSE);
-
-	while (data->map.matrix[++row])
-	{
-		while (data->map.matrix[row][col])
-			if (data->map.matrix[row][col] == ' ')
-				col++;
-
-	}
-	
+	j = ft_strlen(line) - 1;
+	while (line[j] && line[j] == ' ')
+		j--;
+	if (line[j] != '1' || (ft_strlen(line) == 1 && line[i] != '1'))
+return FALSE;
+	return (TRUE);
 
 }
 
+static bool check_map_walls(char **map, int i, int j)
+{
+	if (i > 1 && ft_strlen(map[i]) > ft_strlen(map[i + 1]) 
+		&& j >= ft_strlen(map[i - 1]) && map[i][j] && map[i][j] != '1')
+		return (FALSE);
+	if ( i > 0 && map[i + 1] != NULL && ft_strlen(map[i]) > ft_strlen(map[i - 1]) 
+		 && j >= ft_strlen(map[i + 1]) && map[i][j] && map[i][j] != '1')
+		return (FALSE);
+	if (!map[i][j] || (i == 0 && map[i + 1] == NULL))
+		if (map[i][j] != '1' || map[i][j] != ' ')
+			return (FALSE);
+	return (TRUE);
+}
 
+static bool check_elements(char **map)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] != ' ' && map[i][j] != '1' && map[i][j] != '0' 
+				&& map[i][j] != 'N' && map[i][j] != 'S' 
+				&& map[i][j] != 'E' && map[i][j] != 'W')
+				return (FALSE);
+			j++;
+		}
+	}
+	return (TRUE);
+}
+
+// @brief	Function to parse the map from the data structure
+bool	parse_map(char **map)
+{
+	int i;
+	int j;
+	
+	i = -1;
+	j = -1;
+	
+	if (check_spaces(map) == FALSE || check_elements(map) == FALSE)
+		return (FALSE);
+
+	while (map[++i])
+	{
+		while (map[i][j])
+		{
+			if (map[i][j] == ' ')
+				j++;
+			if (!map[i][j])
+				break;
+			if (check_map_borders(map[i]) == FALSE || check_map_walls(map, i, j) == FALSE)
+				return(printf("Error\n invalid map borders or walls\n"), FALSE);
+			j++;
+		}
+	}
+	return (TRUE);
+}
 
 // @brief	Function to check if the map is valid
 // @param	data	Pointer to the data structure
 // @return	Returns true if the map is valid, false otherwise
-// @note i = -2 because of the first and last line
+//@note i = -2 because of the first and last line
 
 static int	size_map(char *file)
 {

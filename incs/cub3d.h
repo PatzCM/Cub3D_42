@@ -75,7 +75,7 @@ typedef struct s_data
 // Function Prototypes
 // ---------------------------------------------------------------------------
 void	init_data(t_data *data, char *file);
-bool	parse_map(t_data *data);
+bool	parse_map(char **map);
 void	copy_map(t_data *data, char *file);
 bool	parse_textures(t_data *data);
 void	rgb_int(t_data *data);
