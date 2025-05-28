@@ -6,11 +6,22 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:02:37 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/23 16:11:13 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:33:36 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
+
+/* static void	draw_player(t_data *data, double scale, t_img *img)
+{
+	int minimap_px;
+	int minimap_py;
+
+	minimap_px = (int)(data->pos_X / scale);
+	minimap_px = (int)(data->pos_Y / scale);
+	
+	
+} */
 
 void	ini_minimap(t_data *data)
 {
@@ -24,28 +35,55 @@ void	ini_minimap(t_data *data)
 	map->addr = mlx_get_data_addr(map->img, &map->bpp, &map->line_len, &map->endian);
 	if (!(map->addr))
 		ft_exit(data);
-	int i;
-	int j;
+}
 
+void	draw_player(t_data *data)
+{
+	int playerx;
+	int playery;
+	double scale;
+	int	i;
+	int	j;
+	
 	i = -1;
 	j = -1;
-	while (++i < (int)minimap_w)
+	scale = (double)mapWidth / (double)minimap_w;
+	playerx = (int)(floor(data->pos_X / scale));
+	playery = (int)(floor(data->pos_Y / scale));
+	while (++i < minimap_player_size)
 	{
 		j = -1;
-		while (++j < (int)minimap_h)
-			my_mlx_pixel_put(map, i, j, 0xFFFFFF);
+		while (++j < minimap_player_size)
+			my_mlx_pixel_put(data->draw->minimap, playerx + i, playery + j, 0x00FF00);
 	}
+	
 }
 
 void	draw_minimap(t_data *data)
 {
-	int buff;
+	int i;
+	int j;
+	double scale;
 
-	buff = data->draw->startx;
-	while (++(data->draw->starty) < data->draw->endy)
+	scale = (double)mapWidth / (double)minimap_w;
+	i = -1;
+	j = -1;
+	while (++i < minimap_w)
 	{
-		data->draw->startx = buff;
-		while (++(data->draw->startx) < data->draw->endx)
-			my_mlx_pixel_put(data->draw->img_buffer, data->draw->startx, data->draw->starty, 0xFFFFFF);
+		j = -1;
+		while (++j < minimap_h)
+		{
+			if (i * scale < mapWidth && j * scale < mapHeight)
+			{
+				if (data->worldMap[(int)(floor(i * scale))][(int)floor(j * scale)] == 0)
+					my_mlx_pixel_put(data->draw->minimap, i, j, 0xFFFFFF);
+				else
+					my_mlx_pixel_put(data->draw->minimap, i, j, 0xFF0000);
+			}
+			else
+				continue ;
+		}
 	}
+	draw_player(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->draw->minimap->img, data->draw->minimap_startx, data->draw->minimap_starty);
 }

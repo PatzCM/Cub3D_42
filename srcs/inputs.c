@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:27:31 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/23 15:20:36 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:36:09 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ int	key_press(int keycode, t_data *data)
 	else if (keycode == XK_Right)
 		data->controls[5] = true;
 	else if (keycode == XK_m)
-		data->controls[6] = true;
+	{
+		if (data->controls[6] == true)
+			data->controls[6] = false;
+		else
+			data->controls[6] = true;
+	}
 	return (0);
 }
 
@@ -54,8 +59,6 @@ int	key_release(int keycode, t_data *data)
 		data->controls[4] = false;
 	else if (keycode == XK_Right)
 		data->controls[5] = false;
-	else if (keycode == XK_m)
-		data->controls[6] = false;
 	return (0);
 }
 

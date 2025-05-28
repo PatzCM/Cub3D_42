@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:08:51 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/23 16:08:32 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:54:44 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ static void	controls_ini(t_data *data)
 	plane X and Y is the pov (screen)
 	side_X and Y are TODO
 */
+
+/*direcoes: norte: y = -1 / planex = 0.66
+			sul:  y = 1 / planeX = -0.66
+			este: x = 1 /planey = 0.66
+			oeste: x = -1 / planey = -0.66
+*/
 static void	vars_ini(t_data *data)
 {
 	data->pos_X = 22;
@@ -45,10 +51,10 @@ static void	vars_ini(t_data *data)
 	data->vars->win_w = (int)screenWidth;
 	data->vars->win_h = (int)screenHeight;
 	data->delta_time = 0;
-	data->dir_vec_X = -1;
-	data->dir_vec_Y = 0;
-	data->plane_X = 0;
-	data->plane_Y = 0.66;
+	data->dir_vec_X = 0;
+	data->dir_vec_Y = -1;
+	data->plane_X = -0.66;
+	data->plane_Y = 0;
 	data->vars->side_X = 0;
 	data->vars->side_Y = 0;
 }
@@ -78,10 +84,8 @@ static void	draw_ini(t_data *data)
 	data->draw->line_h = 0;
 	data->draw->tex_h = 64;
 	data->draw->tex_w = 64;
-	data->draw->startx = (int)screenWidth / 10;
-	data->draw->endx = data->draw->startx + (int)minimap_w;
-	data->draw->starty = (int)screenHeight - (int)screenHeight / 10 - (int)minimap_h;
-	data->draw->endy = data->draw->starty + (int)minimap_h;
+	data->draw->minimap_startx = (int)screenWidth / 20;
+	data->draw->minimap_starty = (int)screenHeight - (int)screenHeight / 20 - (int)minimap_h;
 }
 static void	window_ini(t_data *data)
 {

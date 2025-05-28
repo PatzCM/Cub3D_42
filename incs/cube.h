@@ -10,8 +10,9 @@
 # define screenWidth 640
 # define screenHeight 320
 # define cntls_numb 7
-# define minimap_w (screenWidth / 4)
-# define minimap_h (screenHeight / 4 * (screenWidth / screenHeight))
+# define minimap_player_size (minimap_h / 20)
+# define minimap_w (screenWidth / 8)
+# define minimap_h (screenHeight / 8 * (screenWidth / screenHeight))
 
 /*============================================================================#
 #                                 Libraries                                   #
@@ -45,10 +46,8 @@ typedef struct s_draw_calc
 	int	end;
 	int tex_w;
 	int tex_h;
-	int	startx;
-	int starty;
-	int endx;
-	int endy;
+	int	minimap_startx;
+	int minimap_starty;
 	t_img *minimap;
 	t_img *img_buffer;
 	t_img textures[4];

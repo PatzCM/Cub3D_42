@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:23 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/23 16:10:55 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/26 11:39:22 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,5 @@ void	raycaster(t_data *data)
 		calculate_perpendicular(data);
 		calculate_lines(data);
 		calculate_texture_X(data, x);
-		if (data->controls[6])
-			draw_minimap(data);
 	}
 }
