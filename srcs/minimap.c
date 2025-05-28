@@ -6,22 +6,11 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:02:37 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/26 14:33:36 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:10:14 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
-
-/* static void	draw_player(t_data *data, double scale, t_img *img)
-{
-	int minimap_px;
-	int minimap_py;
-
-	minimap_px = (int)(data->pos_X / scale);
-	minimap_px = (int)(data->pos_Y / scale);
-	
-	
-} */
 
 void	ini_minimap(t_data *data)
 {
@@ -77,8 +66,10 @@ void	draw_minimap(t_data *data)
 			{
 				if (data->worldMap[(int)(floor(i * scale))][(int)floor(j * scale)] == 0)
 					my_mlx_pixel_put(data->draw->minimap, i, j, 0xFFFFFF);
-				else
+				else if (data->worldMap[(int)(floor(i * scale))][(int)floor(j * scale)] == 2)
 					my_mlx_pixel_put(data->draw->minimap, i, j, 0xFF0000);
+				else
+					my_mlx_pixel_put(data->draw->minimap, i, j, 0x000000);
 			}
 			else
 				continue ;

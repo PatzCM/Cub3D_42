@@ -6,18 +6,46 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:12:08 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/23 14:48:34 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:30:04 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cube.h"
 
+
+static void	draw_enemies(t_data *data, double step, double pos_tex, int x)
+{
+	int y;
+	int texture_idx;
+	uint32_t color;
+	int	tex_Y;
+	char *dst;
+	
+	y = data->draw->start - 1;
+	while (++y < data->draw->end)
+	{
+		tex_Y = (int)pos_tex & ((int)texture_h - 1);
+		if (data->worldMap[data->vars->mapX][data->vars->mapY] == 2)
+			texture_idx = 4;
+		color = *(uint32_t*)(data->draw->textures[texture_idx].addr +
+			tex_Y * data->draw->textures[texture_idx].line_len +
+			data->vars->texture_X * (data->draw->textures[texture_idx].bpp / 8));
+		pos_tex += step;
+		if (color != 0xFFFFFF)
+		{
+	 		if (x < 0 || x >= (int)screenWidth || y < 0 || y >= (int)screenHeight)
+        		return;
+			dst = data->draw->img_buffer->addr + (y * data->draw->img_buffer->line_len + x * (data->draw->img_buffer->bpp / 8));
+			*(unsigned int*)dst = color;
+		}
+	}
+}
 /**
 	@brief selects the texture we want to put on the wall depending on
 	geographical orientation then get the color of the exact pixel we want
 	from that texture and puts in the buffer
  */
-static void	texture_selector(t_data *data, double step, double pos_tex, int x)
+static void	texture_selector_walls(t_data *data, double step, double pos_tex, int x)
 {
 	int y;
 	int texture_idx;
@@ -28,6 +56,8 @@ static void	texture_selector(t_data *data, double step, double pos_tex, int x)
 	while (++y < data->draw->end)
 	{
 		tex_Y = (int)pos_tex & ((int)texture_h - 1);
+/* 		if (data->worldMap[data->vars->mapX][data->vars->mapY] != 1)
+			return ; */
 		if (data->vars->side_hit == 0 && data->vars->dir_stepX == -1)
 			texture_idx = 0;
 		else if (data->vars->side_hit == 0 && data->vars->dir_stepX == 1)
@@ -64,7 +94,8 @@ void	calculate_texture_X(t_data *data, int x)
 		data->vars->texture_X = texture_w - data->vars->texture_X - 1;
 	step = 1.0 * texture_h / data->draw->line_h;
 	pos_tex = (data->draw->start - data->vars->win_h / 2 + data->draw->line_h / 2) * step;
-	texture_selector(data, step, pos_tex, x);
+	texture_selector_walls(data, step, pos_tex, x);
+	draw_enemies(data, step, pos_tex, x);
 }
 
 /**
@@ -84,6 +115,15 @@ static void	texture_to_image(t_data *data)
 	data->draw->textures[3].img = mlx_xpm_file_to_image(data->mlx, "textures/mossy.xpm", &data->draw->tex_w, &data->draw->tex_h);
 	if (!(data->draw->textures[3].img))
 		ft_exit(data);
+	data->draw->textures[4].img = mlx_xpm_file_to_image(data->mlx, "textures/cursed_slime.xpm", &data->draw->tex_w, &data->draw->tex_h);
+	if (!(data->draw->textures[4].img))
+		ft_exit(data);
+	data->draw->textures[5].img = mlx_xpm_file_to_image(data->mlx, "textures/gun.xpm", &data->draw->tex_w, &data->draw->tex_h);
+	if (!(data->draw->textures[5].img))
+		ft_exit(data);	
+	data->draw->textures[6].img = mlx_xpm_file_to_image(data->mlx, "textures/shoot_gun.xpm", &data->draw->tex_w, &data->draw->tex_h);
+	if (!(data->draw->textures[6].img))
+		ft_exit(data);	
 }
 
 /**

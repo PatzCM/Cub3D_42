@@ -2,14 +2,14 @@
 #ifndef CUBE_H
 # define CUBE_H
 
-# define tex_numb 4
+# define tex_numb 7
 # define texture_w 64
 # define texture_h 64
 # define mapWidth 24
 # define mapHeight 24
 # define screenWidth 640
 # define screenHeight 320
-# define cntls_numb 7
+# define cntls_numb 8
 # define minimap_player_size (minimap_h / 20)
 # define minimap_w (screenWidth / 8)
 # define minimap_h (screenHeight / 8 * (screenWidth / screenHeight))
@@ -50,7 +50,7 @@ typedef struct s_draw_calc
 	int minimap_starty;
 	t_img *minimap;
 	t_img *img_buffer;
-	t_img textures[4];
+	t_img textures[tex_numb];
 }	t_draw_calc;
 
 typedef struct s_calc_vars
@@ -89,6 +89,7 @@ typedef struct s_data
 	double	curr_time;
 	double	old_time;
 	double	delta_time;
+	int gun_animation;
 	bool	controls[cntls_numb];
 	t_calc_vars *vars;
 	t_draw_calc *draw;
@@ -123,6 +124,9 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 //minimap
 void	ini_minimap(t_data *data);
 void	draw_minimap(t_data *data);
+
+//combat
+void	draw_gun(t_data *data);
 
 //fps
 void	fps_counter(t_data *data);
