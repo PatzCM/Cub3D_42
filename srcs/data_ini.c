@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:08:51 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/28 14:58:16 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:22:27 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	controls_ini(t_data *data)
 	i = -1;
 	while (++i < (int)cntls_numb)
 		data->controls[i] = false;
-	data->gun_animation = 0;
 }
 
 /** 
@@ -146,9 +145,11 @@ void	data_ini(t_data *data)
 	data->draw->img_buffer = malloc(sizeof(t_img));
 	if (!data->draw->img_buffer)
 		ft_exit(data);
+	data->distance_buffer = malloc(sizeof(double) * screenWidth);
 	vars_ini(data);
 	controls_ini(data);
 	draw_ini(data);
 	ini_texture(data);
 	ini_minimap(data);
+	enemies_ini(data);
 }

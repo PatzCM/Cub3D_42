@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:32:17 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/28 15:08:46 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:45:44 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,40 @@ void	draw_gun(t_data *data)
 {
 	int i;
 	int j;
-	int tex_idx;
 	t_img gun;
 	uint32_t color;
 
 	i = -1;
 	j = -1;
-	tex_idx = 5;
-	if (data->controls[7])
+
+ 	if (data->controls[7])
 	{
 		data->gun_animation++;
-		if (data->gun_animation >= 2)
+		if (data->draw->gun_txt_idx == 6)
 		{
-			if (tex_idx == 5)
-				tex_idx = 6;
-			else
-				tex_idx = 5;
+			if (data->gun_animation >= 30)
+			{
+				data->draw->gun_txt_idx = 5;
+				data->gun_animation = 0;
+			}
+		}
+	}
+	else if (!data->controls[7] && data->draw->gun_txt_idx == 6)
+	{
+		data->gun_animation++;
+		if (data->gun_animation >= 30)
+		{
+			data->draw->gun_txt_idx = 5;
 			data->gun_animation = 0;
 		}
 	}
-	else
-		tex_idx = 5;
-	gun = data->draw->textures[tex_idx];
+	gun = data->draw->textures[data->draw->gun_txt_idx];
 	while (++i < 256)
 	{
 		j = -1;
 		while (++j < 256)
 		{
-			color = *(uint32_t*)(gun.addr + (j * gun.line_len + i * (gun.bpp / 8)));
+		color = *(uint32_t*)(gun.addr + (j * gun.line_len + i * (gun.bpp / 8)));
 		if (color != 0xFFFFFF)
 			my_mlx_pixel_put(data->draw->img_buffer, i + (screenWidth / 2 - 128), j + (screenHeight - 256), color); 
 		}

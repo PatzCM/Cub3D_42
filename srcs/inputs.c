@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:27:31 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/28 14:45:01 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:45:27 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	key_press(int keycode, t_data *data)
 			data->controls[6] = true;
 	}
 	else if (keycode == XK_space)
-			data->controls[7] = true;
+	{
+		data->controls[7] = true;
+		data->draw->gun_txt_idx = 6;
+	}
 	return (0);
 }
 
@@ -62,7 +65,11 @@ int	key_release(int keycode, t_data *data)
 	else if (keycode == XK_Right)
 		data->controls[5] = false;
 	else if (keycode == XK_space)
+	{
 		data->controls[7] = false;
+		data->gun_animation = 0;
+		data->shoot_flag = 0;
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 13:39:54 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/28 12:28:12 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:26:18 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,11 @@ void	check_walls(t_data *data)
 		{
 			vars->hit = 1;
 			if (data->controls[7] && data->worldMap[vars->mapX][vars->mapY] == 2 
-			&& (data->vars->camera_X > -0.1 && data->vars->camera_X < 0.1))
-				data->worldMap[vars->mapX][vars->mapY] = 0;
+			&& (data->vars->camera_X > -0.1 && data->vars->camera_X < 0.1) && data->shoot_flag == 0)
+			{
+				if (enemy_hit(data, vars->mapX, vars->mapY) == 0)
+					data->worldMap[vars->mapX][vars->mapY] = 0;
+			}
 		}
 	}
 }

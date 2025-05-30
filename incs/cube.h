@@ -30,6 +30,16 @@
 #                                 Structs                                     #
 #============================================================================*/
 
+typedef struct s_enemy
+{
+	int	id;
+	int	enemy_hp;
+	int pos_x;
+	int pos_y;
+	double distance;
+	struct s_enemy *next;
+}	t_enemy;
+
 typedef	struct	s_img
 {
 	void	*img;
@@ -48,6 +58,7 @@ typedef struct s_draw_calc
 	int tex_h;
 	int	minimap_startx;
 	int minimap_starty;
+	int gun_txt_idx;
 	t_img *minimap;
 	t_img *img_buffer;
 	t_img textures[tex_numb];
@@ -89,7 +100,11 @@ typedef struct s_data
 	double	curr_time;
 	double	old_time;
 	double	delta_time;
+	double	*distance_buffer;
 	int gun_animation;
+	int	shoot_flag;
+	t_enemy *enemies;
+	int numb_of_enemies;
 	bool	controls[cntls_numb];
 	t_calc_vars *vars;
 	t_draw_calc *draw;
@@ -127,6 +142,9 @@ void	draw_minimap(t_data *data);
 
 //combat
 void	draw_gun(t_data *data);
+void	enemies_ini(t_data *data);
+int		enemy_hit(t_data *data, int mapX, int mapY);
+void draw_enemies(t_data *data);
 
 //fps
 void	fps_counter(t_data *data);

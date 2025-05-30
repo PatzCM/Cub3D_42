@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:31:45 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/23 15:14:26 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:55:38 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	ft_exit(t_data *data)
 		free(data->draw->img_buffer);
 	if (data->draw->minimap)
 		free(data->draw->minimap);
+	if (data->enemies)
+		free(data->enemies);
 	if (data->vars)
 		free(data->vars);
 	if (data->draw)
