@@ -34,10 +34,11 @@ typedef struct s_enemy
 {
 	int	id;
 	int	enemy_hp;
-	int pos_x;
-	int pos_y;
+	double pos_x;
+	double pos_y;
 	double distance;
 	struct s_enemy *next;
+	struct s_enemy *prev;
 }	t_enemy;
 
 typedef	struct	s_img
@@ -144,7 +145,9 @@ void	draw_minimap(t_data *data);
 void	draw_gun(t_data *data);
 void	enemies_ini(t_data *data);
 int		enemy_hit(t_data *data, int mapX, int mapY);
-void draw_enemies(t_data *data);
+void	draw_enemies(t_data *data);
+void	order_enemies(t_data *data);
+void	enemy_count(t_data *data);
 
 //fps
 void	fps_counter(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 14:14:08 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/30 15:10:50 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:32:55 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,27 @@
 
 void order_enemies(t_data *data)
 {
+	t_enemy *current;
 	t_enemy *tmp;
-	t_enemy *first_node;
 
+	current = data->enemies;
 	tmp = NULL;
-	first_node = data->enemies;
-	while(data->enemies->next != NULL)
+	while(current)
 	{
-		if (data->enemies->distance < data->enemies->next->distance)
+		if (current->distance < current->next->distance)
 		{
-			tmp = data->enemies->next;
-			data->enemies->next = tmp->next;
-			tmp->next = data->enemies;
-			data->enemies = first_node;
+			tmp = current;
+			current = current->next;
+			tmp->next = current->next;
+			current->prev = tmp->prev;
+			tmp->prev = current;
+			if (current->next)
+				current->next->prev = tmp;
+			current->next = tmp;
 		}
 		else
-			data->enemies = data->enemies->next;
-	}	
+			current = current->next;
+	}
 }
 
 void	enemy_count(t_data *data)

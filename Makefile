@@ -2,7 +2,8 @@
 #                                 Files and Paths                              #
 #==============================================================================#
 
-SRCS = $(addprefix $(SRCS_PATH)/, main.c inputs.c data_ini.c ft_exit.c raycaster.c calculation.c draw.c fps_counter.c textures.c minimap.c enemies.c)
+SRCS = $(addprefix $(SRCS_PATH)/, main.c inputs.c data_ini.c ft_exit.c raycaster.c calculation.c draw.c fps_counter.c textures.c \
+minimap.c enemies.c enemies_utils.c)
 
 OBJS = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
 
