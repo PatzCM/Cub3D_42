@@ -91,9 +91,9 @@ get_minilibx:
 
 
 # Build libft
-$(LIB_PATH)/libft/libft.a:
+$(LIBFT_PATH)/libft.a:
 	@echo "$(GREEN)$(BOLD)Building libft$(RESET)"
-	@$(MAKE) -C $(LIB_PATH)/libft
+	@$(MAKE) -C $(LIBFT_PATH)
 
 # Build mlx
 $(LIB_PATH)/mlx/libmlx.a:
