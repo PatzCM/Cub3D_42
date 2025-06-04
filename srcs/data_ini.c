@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:08:51 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/30 15:22:27 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:15:15 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	data_ini(t_data *data)
 	data->draw->img_buffer = malloc(sizeof(t_img));
 	if (!data->draw->img_buffer)
 		ft_exit(data);
-	data->distance_buffer = malloc(sizeof(double) * screenWidth);
+	data->buffer_z = malloc(sizeof(double) * screenWidth);
 	vars_ini(data);
 	controls_ini(data);
 	draw_ini(data);

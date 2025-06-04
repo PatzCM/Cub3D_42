@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:22:01 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/29 16:49:01 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:18:28 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	game_loop(t_data *data)
 		handle_inputs(data);
 		raycaster(data);
 		draw_enemies(data);
+		draw_gun(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->draw->img_buffer->img, 0, 0);
 		if (data->controls[6] == true)
 			draw_minimap(data);
-		draw_gun(data);
 		fps_counter(data);
 		return (0);
 }

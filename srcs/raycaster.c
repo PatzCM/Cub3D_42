@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:23 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/30 15:28:18 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:16:37 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	the need variables to ensure there is a correct
 	calculation everytime
  */
-static void	reset_vars(t_data *data)
+void	reset_vars(t_data *data)
 {
 		data->vars->hit = 0;
 		data->vars->mapX = (int)data->pos_X;
@@ -51,7 +51,7 @@ void	raycaster(t_data *data)
 		calculate_side(data);
 		check_walls(data);
 		calculate_perpendicular(data);
-		data->distance_buffer[x] = data->vars->wall_dist;
+		data->buffer_z[x] = data->vars->wall_dist;
 		calculate_lines(data);
 		calculate_texture_X(data, x);
 	}

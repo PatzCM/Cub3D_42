@@ -101,11 +101,11 @@ typedef struct s_data
 	double	curr_time;
 	double	old_time;
 	double	delta_time;
-	double	*distance_buffer;
 	int gun_animation;
 	int	shoot_flag;
 	t_enemy *enemies;
 	int numb_of_enemies;
+	double	*buffer_z;
 	bool	controls[cntls_numb];
 	t_calc_vars *vars;
 	t_draw_calc *draw;
@@ -131,6 +131,7 @@ void	check_walls(t_data *data);
 void	calculate_side(t_data *data);
 void	calculate_next(t_data *data);
 void	calculate_lines(t_data *data);
+void	reset_vars(t_data *data);
 
 //draw
 void	calculate_texture_X(t_data *data, int x);

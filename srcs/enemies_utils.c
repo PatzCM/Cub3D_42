@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 14:14:08 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/06/02 16:32:55 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:19:21 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void order_enemies(t_data *data)
 
 	current = data->enemies;
 	tmp = NULL;
-	while(current)
+	while(current->next)
 	{
 		if (current->distance < current->next->distance)
 		{

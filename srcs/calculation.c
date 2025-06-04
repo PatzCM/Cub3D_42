@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 13:39:54 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/05/30 15:26:18 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:16:05 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	calculate_side(t_data *data)
 
 /**
 	@brief this is the DDA algorithm that will increment 
-	side until we hit a wall 
+	side until we hit a wall 	double	wall_dist;
  */
 void	check_walls(t_data *data)
 {
@@ -102,7 +102,8 @@ void	check_walls(t_data *data)
 		}
 		if (data->worldMap[vars->mapX][vars->mapY] > 0)
 		{
-			vars->hit = 1;
+			if (data->worldMap[vars->mapX][vars->mapY] == 1)
+				vars->hit = 1;
 			if (data->controls[7] && data->worldMap[vars->mapX][vars->mapY] == 2 
 			&& (data->vars->camera_X > -0.1 && data->vars->camera_X < 0.1) && data->shoot_flag == 0)
 			{

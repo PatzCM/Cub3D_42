@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:10:01 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/06/02 16:21:55 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:21:59 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void	position_n_distance(t_data *data)
 				tmp->pos_x = (double)i + 0.5;
 				tmp->pos_y = (double)j + 0.5;
 				tmp->distance = 
-					pow((data->pos_X - tmp->pos_x), 2) +
-                	pow(data->pos_Y - tmp->pos_y, 2);
+					sqrt(pow((data->pos_X - tmp->pos_x), 2) +
+                	pow(data->pos_Y - tmp->pos_y, 2));
 				tmp = tmp->next;
 			}	
 		}
@@ -106,66 +106,66 @@ int	enemy_hit(t_data *data, int mapX, int mapY)
 void draw_enemies(t_data *data)
 {
 	t_enemy *current;
-	int	sprite_x;
-	int sprite_y;
-	double transX;
-	double transY;
+	double	sprite_X;
+	double	sprite_Y;
+	double	trans_x;
+	double	trans_y;
+	double	inv;
+	int sprite_screen_x;
+	int sprite_h;
+	int sprite_w;
+	int draw_start_x;
+	int draw_end_x;
+	int vertical;
 	int texture_x;
 	int texture_y;
-	int drawstartx;
-	int drawstarty;
-	int	sprite_screenx;
 	int y;
 	int d;
 	uint32_t color;
-	double	scale;
-
-	y = -1;
+	
 	data->draw->tex_h = 64;
 	data->draw->tex_w = 64;
-	current = data->enemies;
-	scale = 1.0 / (data->plane_X * data->dir_vec_Y - data->dir_vec_X * data->plane_Y);
-	while (current)
+	current = data->enemies; 
+	while (current != NULL)
 	{
-		sprite_x = (int)current->pos_x - data->pos_X;
-		sprite_y = (int)current->pos_y - data->pos_Y;
-		transX = scale * (data->dir_vec_Y * sprite_x - data->dir_vec_X * sprite_y);
-		transY = scale * (-data->plane_Y * sprite_x + data->plane_X * sprite_y);
-		if (transY <= 0)
-			continue ;
-		sprite_screenx = (screenWidth / 2) * (1 + transX / transY);
-		data->draw->line_h = fabs(data->draw->tex_h / transY);
-		data->draw->start = -data->draw->line_h / 2 + screenHeight / 2;
-		if (data->draw->start < 0)
+		sprite_X = (current->pos_x + 0.5) - data->pos_X;
+		sprite_Y = (current->pos_y + 0.5) - data->pos_Y;
+		inv = 1.0 / (data->plane_X * data->dir_vec_Y - data->dir_vec_X * data->plane_Y);
+		trans_x = inv * (data->dir_vec_Y * sprite_X - data->dir_vec_X * sprite_Y);
+		trans_y = inv * (-data->plane_Y * sprite_X + data->plane_X * sprite_Y);
+		sprite_screen_x = (int)((screenWidth / 2) * (1 + trans_x / trans_y));
+		sprite_h = fabs((int)screenHeight / trans_y);
+		data->draw->start = -sprite_h / 2 + screenHeight / 2;
+		if(data->draw->start < 0) 
 			data->draw->start = 0;
-		data->draw->end = data->draw->line_h / 2 + screenHeight / 2;
-		if (data->draw->end >= screenHeight)
+		data->draw->end = sprite_h / 2 + screenHeight / 2;
+		if (data->draw->end >= screenHeight) 
 			data->draw->end = screenHeight - 1;
-		drawstartx = -data->draw->line_h / 2 + sprite_screenx;
-		if (drawstartx < 0)
-			drawstartx = 0;
-		drawstarty = data->draw->line_h / 2 + sprite_screenx;
-		if (drawstarty >= screenWidth)
-			drawstarty = screenWidth - 1;
-		sprite_x = drawstartx;
-		while (sprite_x < drawstarty)
+		sprite_w = fabs((int)screenHeight / trans_y);
+		draw_start_x = -sprite_w / 2 + sprite_screen_x;
+      	if(draw_start_x < 0) 
+			draw_start_x = 0;
+		draw_end_x = sprite_w / 2 + sprite_screen_x;
+		if (draw_end_x >= screenWidth)
+			draw_end_x = screenWidth - 1;
+		vertical = draw_start_x - 1;
+		while (++vertical < draw_end_x)
 		{
-			if (transY < data->distance_buffer[sprite_x] && sprite_x >= 0 && sprite_x < screenWidth)
+			texture_x = (int)(256 * (vertical - (-sprite_w / 2 + sprite_screen_x) * data->draw->tex_w / sprite_w) / 256);
+			if (trans_y > 0 && vertical > 0 && vertical < screenWidth && trans_y < data->buffer_z[vertical])
 			{
-				texture_x = (int)(256 * (sprite_x - drawstartx) * 64 / data->draw->line_h / 256);
 				y = data->draw->start - 1;
-				while (++y < data->draw->end)
+				while(++y < data->draw->end)
 				{
-					d = (y - data->draw->start) * 256 - screenHeight * 128 + data->draw->line_h * 128;
-					texture_y = ((d * 64) / data->draw->line_h) / 256;
+					d = y * 256 - screenHeight * 128 + sprite_h * 128;
+					texture_y = ((d * data->draw->tex_h) / sprite_h) / 256;
 					color = *(uint32_t*)(data->draw->textures[4].addr +
-                            (texture_y * data->draw->textures[4].line_len +
-                            texture_x * (data->draw->textures[4].bpp / 8)));
+                        texture_y * data->draw->textures[4].line_len +
+                        texture_x * (data->draw->textures[4].bpp / 8));
 					if (color != 0xFFFFFF)
-						my_mlx_pixel_put(data->draw->img_buffer, sprite_x, y, color);
+						my_mlx_pixel_put(data->draw->img_buffer, vertical, y, color);
 				}
 			}
-			sprite_x++;
 		}
 		current = current->next;
 	}
