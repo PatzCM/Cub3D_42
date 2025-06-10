@@ -6,7 +6,7 @@
 /*   By: rpedrosa <rpedrosa@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:10:01 by rpedrosa          #+#    #+#             */
-/*   Updated: 2025/06/04 17:21:59 by rpedrosa         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:17:39 by rpedrosa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ static void	position_n_distance(t_data *data)
 		{
 			if (data->worldMap[i][j] == 2)
 			{
-				tmp->pos_x = (double)i + 0.5;
-				tmp->pos_y = (double)j + 0.5;
+				tmp->pos_x = i;
+				tmp->pos_y = j;
 				tmp->distance = 
-					sqrt(pow((data->pos_X - tmp->pos_x), 2) +
-                	pow(data->pos_Y - tmp->pos_y, 2));
+					pow((data->pos_X - tmp->pos_x), 2) +
+                	pow((data->pos_Y - tmp->pos_y), 2);
 				tmp = tmp->next;
 			}	
 		}
@@ -86,7 +86,7 @@ int	enemy_hit(t_data *data, int mapX, int mapY)
 	t_enemy *current;
 
 	current = data->enemies;
-	while (current->next != NULL)
+	while (current != NULL)
 	{
 		if (current->pos_x == mapX 
 			&& current->pos_y == mapY)
@@ -94,11 +94,11 @@ int	enemy_hit(t_data *data, int mapX, int mapY)
 			current->enemy_hp--;
 			data->shoot_flag = 1;
 			if (current->enemy_hp == 0)
-				return  (0);
+				return  (current->id);
 			else
-				return (1);
-			current = current->next;
+				return (-1);
 		}
+		current = current->next;
 	}
 	return (1);
 }
@@ -125,6 +125,8 @@ void draw_enemies(t_data *data)
 	
 	data->draw->tex_h = 64;
 	data->draw->tex_w = 64;
+	position_n_distance(data);
+	order_enemies(data);
 	current = data->enemies; 
 	while (current != NULL)
 	{
@@ -151,7 +153,7 @@ void draw_enemies(t_data *data)
 		vertical = draw_start_x - 1;
 		while (++vertical < draw_end_x)
 		{
-			texture_x = (int)(256 * (vertical - (-sprite_w / 2 + sprite_screen_x) * data->draw->tex_w / sprite_w) / 256);
+			texture_x = (int)(256 * (vertical - (-sprite_w / 2 + sprite_screen_x)) * data->draw->tex_w / sprite_w) / 256;
 			if (trans_y > 0 && vertical > 0 && vertical < screenWidth && trans_y < data->buffer_z[vertical])
 			{
 				y = data->draw->start - 1;
