@@ -25,7 +25,9 @@ HEADERS = $(INC_PATH)/cub3d.h
 SRCS = $(addprefix $(SRCS_PATH)/, \
 			 main.c \
 			 parsing.c file_parsing.c \
-			 init_data.c )
+			 init_data.c \
+			 flood_fill.c \
+			 free.c)
 # inputs.c data_ini.c ft_exit.c raycaster.c calculation.c draw.c fps_counter.c textures.c minimap.c)
 
 # Object files
