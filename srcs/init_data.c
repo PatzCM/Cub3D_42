@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: palexand <palexand@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/09 17:48:08 by palexand          #+#    #+#             */
+/*   Updated: 2025/06/09 17:48:08 by palexand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incs/cub3d.h"
 
 void	init_data(t_data *data, char *file)
 {
 	data->player_count = 0;
 	data->map.max_width = 0;
-	data->map.max_height = 0;
+	data->map.max_height = size_map(file, data);
 	data->player.x = 0;
 	data->player.y = 0;
 	data->player.dir_x = 0;
