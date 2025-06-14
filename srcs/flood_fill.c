@@ -35,6 +35,7 @@ void	find_player(t_data *data)
 {
 	int	i;
 	int	j;
+	static int player;
 
 	i = -1;
 	while (data->map.map[++i])
@@ -49,11 +50,15 @@ void	find_player(t_data *data)
 			{
 				data->player.x = i;
 				data->player.y = j;
-				return ;
+				player++;
 			}
 			j++;
 		}
 	}
+	if (player == 1)
+		return ;
+	else
+		printf("Error\nMultiple players found\n"), exit(-1);
 }
 
 static bool	check_valid_flood_fill(t_data *data)
