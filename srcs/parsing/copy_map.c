@@ -94,7 +94,7 @@ void	copy_map(t_data *data, char *file)
 		fd = open(file, O_RDONLY);
 		i = -1;
 		line = NULL;
-		while (++i <= data->map_data->line_position)
+		while (i++ <= data->map_data->line_position)
 			free_map(&line, i, fd);
 		while (line && !ft_strchr(line, '1'))
 			free_map(&line, 1, fd);
@@ -110,4 +110,6 @@ void	copy_map(t_data *data, char *file)
 		ft_putstr_fd("Error!\nNo valid Map after textures/colors!\n", 2);
 		ft_free(1, data);
 	}
+	for(int i = 0; data->map->map[i]; i++)
+		printf("%s\n", data->map->map[i]);
 }

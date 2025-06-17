@@ -17,8 +17,8 @@ bool	flood_fill(t_data *data, int x, int y)
 	if (x < 0 || y < 0 || x >= data->map->max_height - 1
 		|| y > (int)(ft_strlen(data->map->map[x]) - 1))
 		return (x >= 0 && y >= 0
-			&& x <= data->map->max_height
-			&& y < (int)(ft_strlen(data->map->map[x]) - 1)
+			&& x < data->map->max_height - 1
+			&& y <= (int)(ft_strlen(data->map->map[x]) - 1)
 			&& data->map->map[x][y] == '1');
 	if (data->map->map[x][y] == '1' || data->map->map[x][y] == 'X')
 		return (TRUE);
