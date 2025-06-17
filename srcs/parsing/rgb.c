@@ -41,6 +41,7 @@ bool	rgb_verify(char **rgb)
 	int	count;
 
 	i = -1;
+	count = 0;
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb_values(rgb) == FALSE)
 		return (TRUE);
 	if (rgb && rgb[0] && rgb[1] && rgb[2] && rgb[3])

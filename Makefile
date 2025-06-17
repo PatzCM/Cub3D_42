@@ -58,7 +58,8 @@ LIBS = ./libs/mlx/libmlx.a ./libs/libft/libft.a
 #															COMPILER & FLAGS                                 #
 #------------------------------------------------------------------------------#
 
-CFLAGS = -g -O3 -Wall -Wextra -Werror
+CFLAGS = -g -O3
+#-Wall -Wextra -Werror
 MLXFLAGS = -L ./libs/minilibx-linux -lm -Ilmlx -lXext -lX11
 CC = cc
 RM = rm -rf
@@ -119,10 +120,8 @@ fclean: clean
 	@echo "$(BCYA)[fclean] Archive, Libft and Minilibx removed$(D)"
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS REMOVING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
 
-re: 
+re:	fclean all 
 	@echo "$(GREEN)$(BOLD)$(BUILD) REBUILDING !$(RESET)"
-	@$(MAKE) -s fclean
-	@$(MAKE) -s all
 
 #------------------------------------------------------------------------------#
 #															COLORS & STYLES                                	 #
@@ -183,4 +182,4 @@ CHECK =
 CHECKMARK = ✔️
 CROSS = ❌
 
-
+.PHONY: all fclean re clean
