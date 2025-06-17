@@ -82,7 +82,9 @@ bool	check_flood(t_data *data)
 	i = -1;
 	data->map->fmap = ft_calloc(sizeof(char *), data->map->max_height + 1);
 	while (data->map->map[++i])
+	{
 		data->map->fmap[i] = ft_strdup(data->map->map[i]);
+	}
 	data->map->fmap[i] = NULL;
 	tmp = data->map->map;
 	data->map->map = data->map->fmap;
