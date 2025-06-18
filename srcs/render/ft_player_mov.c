@@ -122,7 +122,21 @@ bool	ft_ver_col(char **map, double tempx, double tempy, t_data *data)
 			tmp = tmp->next;
 		}
 	}
+	if (map[(int)(tempx - 0.1)][(int)(tempy - 0.1)] != '1'
+		&& map[(int)(tempx + 0.1)][(int)(tempy + 0.1)] != '1'
+		&& map[(int)tempx][(int)tempy] != '1'
+		&& tempx >= 0 && tempx <= data->map->max_height
+		&& tempy >= 0 && tempy < ft_strlen(map[(int) tempx]) - 1)
+		printf("wtf %f\t%f\t%i\t%lu\n", tempx, tempy, data->map->max_height
+		, ft_strlen(map[(int)tempx]));
+	else
+		printf("wtf1\n");
 	return (map[(int)(tempx - 0.1)][(int)(tempy - 0.1)] != '1'
 		&& map[(int)(tempx + 0.1)][(int)(tempy + 0.1)] != '1'
-		&& map[(int)tempx][(int)tempy] != '1');
+		&& map[(int)tempx][(int)tempy] != '1'
+		&& map[(int)(tempx - 0.1)][(int)(tempy - 0.1)] != ' '
+		&& map[(int)(tempx + 0.1)][(int)(tempy + 0.1)] != ' '
+		&& map[(int)tempx][(int)tempy] != ' '
+		&& tempx >= 0 && tempx <= data->map->max_height
+		&& tempy >= 0 && tempy < ft_strlen(map[(int) tempx]) - 1);
 }
