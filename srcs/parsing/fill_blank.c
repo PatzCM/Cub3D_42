@@ -64,6 +64,3 @@ void	find_outer(t_data *data)
 		}
 	}
 }
-
-
-while/while when space or 0 found --> fill_outer with fill '1'; return to 0_0
