@@ -26,3 +26,44 @@ void	fill_blank(t_data *data, int x, int y)
 	fill_blank(data, x, y + 1);
 	fill_blank(data, x, y - 1);
 }
+
+void	fill_outer(t_data *data, int x, int y)
+{
+	if (x < 0 || y < 0 || x >= data->map->max_height - 1
+		|| y > (int)(ft_strlen(data->map->map[x]) - 1))
+		return ;
+	if (data->map->map[x][y] == '1' || data->map->map[x][y] == 'X')
+		return ;
+	if (data->map->map[x][y] == ' ' || data->map->map[x][y] == '0')
+		data->map->map[x][y] = '1';
+	fill_blank(data, x + 1, y);
+	fill_blank(data, x - 1, y);
+	fill_blank(data, x, y + 1);
+	fill_blank(data, x, y - 1);
+}
+
+void	find_outer(t_data *data)
+{
+	int x;
+	int y;
+
+	x = -1;
+	while (data->map->map[++x])
+	{
+		y = -1;
+		while (data->map->map[x][++y])
+		{
+			if (data->map->map[x][y] == ' ' 
+				|| data->map->map[x][y] == '0')
+			{
+				data->map->map[x][y] = 'X';
+				fill_blank(data, x, y);
+				x = -1;
+				break ;
+			}
+		}
+	}
+}
+
+
+while/while when space or 0 found --> fill_outer with fill '1'; return to 0_0
