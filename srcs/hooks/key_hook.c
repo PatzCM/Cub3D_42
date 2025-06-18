@@ -47,9 +47,15 @@ int	key_hook_press(int key, t_data *data)
 	if (key == 100)
 		data->mov->mov_r = true;
 	if (key == 65361)
+	{
+		data->mov->mouse = 0;
 		data->mov->lookl = true;
+	}
 	if (key == 65363)
+	{
+		data->mov->mouse = 0;
 		data->mov->lookr = true;
+	}
 	if (key == 101)
 		data->mov->open = true;
 	return (0);

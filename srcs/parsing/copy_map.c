@@ -110,6 +110,4 @@ void	copy_map(t_data *data, char *file)
 		ft_putstr_fd("Error!\nNo valid Map after textures/colors!\n", 2);
 		ft_free(1, data);
 	}
-	for(int i = 0; data->map->map[i]; i++)
-		printf("%s\n", data->map->map[i]);
 }

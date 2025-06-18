@@ -72,8 +72,8 @@ void	rgb_int(t_data *data)
 	{
 		rgb = ft_split(data->map_data->f, ',');
 		if (rgb_verify(rgb))
-			return (free_rgb(rgb), ft_putstr_fd("Error\nInvalid RGB values\n", 2)
-				, ft_free(1, data));
+			return (ft_putstr_fd("Error!\nInvalid RGB values\n", 2)
+				, free_rgb(rgb), ft_free(1, data));
 		data->map_data->color_f = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
 			| ft_atoi(rgb[2]);
 	}
@@ -83,8 +83,8 @@ void	rgb_int(t_data *data)
 	{
 		rgb = ft_split(data->map_data->c, ',');
 		if (rgb_verify(rgb))
-			return (free_rgb(rgb), ft_putstr_fd("Error\nInvalid RGB values\n", 2)
-				, ft_free(1, data));
+			return (ft_putstr_fd("Error!\nInvalid RGB values\n", 2)
+				, free_rgb(rgb), ft_free(1, data));
 		data->map_data->color_c = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
 			| ft_atoi(rgb[2]);
 	}

@@ -103,7 +103,8 @@ void	parse_cub_file(char *extension, char *file, t_data *data, bool ffree)
 	}
 	while (file[i] != '.' || ft_strrchr(file, '.') != &file[i])
 		i++;
-	if (ft_strncmp(&file[i], extension, 5) != 0 || i == 0 || (ft_strlen(&file[i]) == 4 && file[i - 1] == '/'))
+	if (ft_strncmp(&file[i], extension, 5) != 0 || i == 0
+		|| (ft_strlen(&file[i]) == 4 && file[i - 1] == '/'))
 	{
 		ft_putstr_fd("Error\nInvalid file extension\n", 2);
 		if (file && ffree)

@@ -66,8 +66,7 @@ RM = rm -rf
 SILENT_MAKE = make -s extra
 
 HOOKS = srcs/hooks/key_hook.c
-# OBJS = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
-OBJS = $(SRCS:%.c=%.o)
+OBJS = $(SRCS:.c=.o)
 
 all: deps $(NAME)
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) BUILD COMPLETED $(GREEN)$(BOLD)$(BUILD)$(RESET)"
@@ -116,7 +115,10 @@ clean:
 fclean: clean
 	@echo "$(RED)$(BOLD)$(CLEAN) REMOVING EXECUTER... $(RESET)"
 	@${RM} ${NAME}
-	@$(MAKE) -C ./libs/libft fclean --silent
+	@if test ! -d "$(LIBFT_PATH)"; then \
+		@$(MAKE) -C ./libs/libft fclean; fi;
+	@if test -d "$(MLX_PATH)"; then \
+		rm -fr $(MLX_PATH); fi;
 	@echo "$(BCYA)[fclean] Archive, Libft and Minilibx removed$(D)"
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS REMOVING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
 

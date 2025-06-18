@@ -14,12 +14,16 @@
 
 bool	flood_fill(t_data *data, int x, int y)
 {
-	if (x < 0 || y < 0 || x > data->map->max_height
+	if (x < 0 || y < 0 || x > data->map->max_height - 1
 		|| y > (int)(ft_strlen(data->map->map[x]) - 1))
+	{
+		printf("%i\t%i\t%c\n", x, y, data->map->map[x][y]);
+		printf("%i\t%lu\n", data->map->max_height, ft_strlen(data->map->map[x]));
 		return (x >= 0 && y >= 0
 			&& x <= data->map->max_height
 			&& y < (int)(ft_strlen(data->map->map[x]) - 1)
 			&& data->map->map[x][y] == '1');
+	}
 	if (data->map->map[x][y] == '1' || data->map->map[x][y] == 'X')
 		return (TRUE);
 	data->map->map[x][y] = 'X';
