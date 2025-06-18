@@ -43,6 +43,13 @@ static bool	util_texture(t_data *data, char *line, int i)
 		data->map_data->f = ft_strdup(line + 2 + i);
 	else if (!data->map_data->c && ft_strnstr(line, "C", 1 + i))
 		data->map_data->c = ft_strdup(line + 2 + i);
+	else if (ft_strnstr(line, "NO", 2 + i)
+		|| ft_strnstr(line, "SO", 2 + i)
+		|| ft_strnstr(line, "EA", 2 + i)
+		|| ft_strnstr(line, "NO", 2 + i)
+		|| ft_strnstr(line, "F", 2 + i)
+		|| ft_strnstr(line, "C", 2 + i))
+		return (FALSE);
 	else if (check_textures(data) == TRUE)
 		return (TRUE);
 	return (FALSE);

@@ -16,6 +16,7 @@
 #------------------------------------------------------------------------------#
 
 NAME = cub3D
+BONUS_NAME = cub3D_bonus
 # Source files
 INC_PATH = ./incs
 LIB_PATH = ./libs
@@ -71,6 +72,8 @@ OBJS = $(SRCS:.c=.o)
 all: deps $(NAME)
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) BUILD COMPLETED $(GREEN)$(BOLD)$(BUILD)$(RESET)"
 
+bonus: deps $(BONUS_NAME)
+	@echo "$(GREEN)$(BOLD)$(CHECKMARK) BUILD COMPLETED $(GREEN)$(BOLD)$(BUILD)$(RESET)"
 %.o: %.c
 	@cc $(CFLAGS) -I/usr/include -Iminilibx-linux -o $@ -c $<
 
@@ -106,6 +109,12 @@ $(NAME): $(OBJS) $(LIBS)
 	@$(CC) $(CFLAGS) -o $@ $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx $(MLXFLAGS)
 	@echo "$(GRN)[Cub3d successfully compiled]$(D)"
 
+$(BONUS_NAME): $(OBJS) $(LIBS)
+	@echo "$(GREEN)$(BOLD)$(BUILD) BUILDING...$(RESET)"
+	# $(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $@ $(NAME) $(MLXFLAGS) -g
+	@$(CC) $(CFLAGS) -o $@ $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx $(MLXFLAGS)
+	@echo "$(GRN)[Cub3d Bonus successfully compiled]$(D)"
+
 clean:
 	@echo "$(RED)$(BOLD)$(CLEAN) CLEANING FILES... $(RESET)"
 	@${RM} ${BUILD_PATH}
@@ -115,6 +124,7 @@ clean:
 fclean: clean
 	@echo "$(RED)$(BOLD)$(CLEAN) REMOVING EXECUTER... $(RESET)"
 	@${RM} ${NAME}
+	@${RM} ${BONUS_NAME}
 	@if test -d "$(LIBFT_PATH)"; then \
 		rm -fr $(MLX_PATH); fi;
 	@echo "$(BCYA)[fclean] Archive, Libft and Minilibx removed$(D)"

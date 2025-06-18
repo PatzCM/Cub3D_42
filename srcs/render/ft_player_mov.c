@@ -101,6 +101,20 @@ void	ft_player_mov_lr(t_data *data)
 	}
 }
 
+bool	ft_ver_col_return(char **map, double tempx,
+					double tempy, t_data *data)
+{
+	return (map[(int)(tempx - 0.1)][(int)(tempy - 0.1)] != '1'
+		&& map[(int)(tempx + 0.1)][(int)(tempy + 0.1)] != '1'
+		&& map[(int)tempx][(int)tempy] != '1'
+		&& map[(int)(tempx - 0.1)][(int)(tempy - 0.1)] != ' '
+		&& map[(int)(tempx + 0.1)][(int)(tempy + 0.1)] != ' '
+		&& map[(int)tempx][(int)tempy] != ' ' && (int) tempx >= 0
+		&& (int)(tempx + 0.2) <= data->map->max_height
+		&& (int) tempy >= 0
+		&& (int)(tempy + 0.2) < (int) ft_strlen(map[(int) tempx]) - 1);
+}
+
 bool	ft_ver_col(char **map, double tempx, double tempy, t_data *data)
 {
 	t_door	*tmp;
@@ -122,12 +136,5 @@ bool	ft_ver_col(char **map, double tempx, double tempy, t_data *data)
 			tmp = tmp->next;
 		}
 	}
-	return (map[(int)(tempx - 0.1)][(int)(tempy - 0.1)] != '1'
-		&& map[(int)(tempx + 0.1)][(int)(tempy + 0.1)] != '1'
-		&& map[(int)tempx][(int)tempy] != '1'
-		&& map[(int)(tempx - 0.1)][(int)(tempy - 0.1)] != ' '
-		&& map[(int)(tempx + 0.1)][(int)(tempy + 0.1)] != ' '
-		&& map[(int)tempx][(int)tempy] != ' '
-		&& tempx >= 0 && tempx <= data->map->max_height
-		&& tempy >= 0 && tempy < ft_strlen(map[(int) tempx]) - 1);
+	return (ft_ver_col_return(map, tempx, tempy, data));
 }

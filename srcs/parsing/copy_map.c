@@ -21,7 +21,7 @@ bool	check_line(char *line)
 	{
 		if (line[i] != '1' && line[i] != '0' && line[i] != ' '
 			&& line[i] != '\n' && line[i] != 'N' && line[i] != 'S'
-			&& line[i] != 'E' && line[i] != 'W' && line[i] != 'H')
+			&& line[i] != 'E' && line[i] != 'W')
 			return (FALSE);
 	}
 	return (TRUE);

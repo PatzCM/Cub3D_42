@@ -12,20 +12,6 @@
 
 #include "../../incs/cub3d.h"
 
-void	fill_blank(t_data *data, int x, int y)
-{
-	if (x < 0 || y < 0 || x >= data->map->max_height - 1
-		|| y > (int)(ft_strlen(data->map->map[x]) - 1))
-		return ;
-	if (data->map->map[x][y] == '1' || data->map->map[x][y] == '0')
-		return ;
-	if (data->map->map[x][y] == ' ')
-		data->map->map[x][y] = '0';
-	fill_blank(data, x + 1, y);
-	fill_blank(data, x - 1, y);
-	fill_blank(data, x, y + 1);
-	fill_blank(data, x, y - 1);
-}
 
 void	fill_outer(t_data *data, int x, int y)
 {
@@ -34,12 +20,11 @@ void	fill_outer(t_data *data, int x, int y)
 		return ;
 	if (data->map->map[x][y] == '1' || data->map->map[x][y] == 'X')
 		return ;
-	if (data->map->map[x][y] == ' ' || data->map->map[x][y] == '0')
-		data->map->map[x][y] = '1';
-	fill_blank(data, x + 1, y);
-	fill_blank(data, x - 1, y);
-	fill_blank(data, x, y + 1);
-	fill_blank(data, x, y - 1);
+	data->map->map[x][y] = '1';
+	fill_outer(data, x + 1, y);
+	fill_outer(data, x - 1, y);
+	fill_outer(data, x, y + 1);
+	fill_outer(data, x, y - 1);
 }
 
 void	find_outer(t_data *data)
@@ -53,11 +38,10 @@ void	find_outer(t_data *data)
 		y = -1;
 		while (data->map->map[x][++y])
 		{
-			if (data->map->map[x][y] == ' ' 
-				|| data->map->map[x][y] == '0')
+			if (data->map->map[x][y] == '0')
 			{
-				data->map->map[x][y] = 'X';
-				fill_blank(data, x, y);
+				fill_outer(data, x, y);
+				data->map->map[x][y] = '1';
 				x = -1;
 				break ;
 			}
