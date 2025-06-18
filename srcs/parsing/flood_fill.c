@@ -67,5 +67,6 @@ bool	check_flood(t_data *data)
 	}
 	data->map->map = tmp;
 	ft_matrix_free((void **) data->map->fmap);
+	fill_blank(data, data->player->x_pos, data->player->y_pos);
 	return (TRUE);
 }

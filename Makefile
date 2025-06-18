@@ -41,7 +41,8 @@ PARSE_SRCS =	srcs/parsing/parsing.c \
 				srcs/parsing/flood_fill.c \
 				srcs/parsing/rgb.c \
 				srcs/parsing/copy_maps_utils.c \
-				srcs/parsing/copy_map.c
+				srcs/parsing/copy_map.c \
+				srcs/parsing/fill_blank.c
 
 INIT =	srcs/init/ft_init.c \
 		srcs/init/ft_init_tex_player.c \

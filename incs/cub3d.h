@@ -245,5 +245,6 @@ bool	check_line(char *line);
 void	copy_map_utils(t_data *data, int fd, char *line);
 void	free_map(char **line, int i, int fd);
 void	ft_init_player_utils(t_data *data, char tmp, int i, int *player);
+void	fill_blank(t_data *data, int x, int y);
 
 #endif
