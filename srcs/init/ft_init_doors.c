@@ -13,7 +13,7 @@
 #include "../../incs/cub3d.h"
 
 void	ft_init_player_utils(t_data *data,
-						  char tmp, int i, int *player)
+						char tmp, int i, int *player)
 {
 	data->player->x_pos = i + 0.5;
 	data->player->y_pos = ft_strchr_len(data->map->map[i], tmp) + 0.5;

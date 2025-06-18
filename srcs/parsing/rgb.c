@@ -63,11 +63,11 @@ bool	rgb_verify(char **rgb)
 	return (FALSE);
 }
 
-int		ft_count_comma(char *line)
+int	ft_count_comma(char *line)
 {
 	int	i;
 	int	count;
-	
+
 	i = -1;
 	count = 0;
 	if (!line)
@@ -75,7 +75,6 @@ int		ft_count_comma(char *line)
 	while (line[++i])
 		if (line[i] ==',')
 			count++;
-
 	return (count);
 }
 void	rgb_int_utils(t_data *data, char **rgb)
@@ -84,7 +83,7 @@ void	rgb_int_utils(t_data *data, char **rgb)
 	{
 		rgb = ft_split(data->map_data->c, ',');
 		if (rgb_verify(rgb)
-			|| ft_count_comma(data->map_data->c) != 3)
+			|| ft_count_comma(data->map_data->c) != 2)
 			return (ft_putstr_fd("Error\nInvalid RGB values\n", 2)
 				, free_rgb(rgb), ft_free(1, data));
 		data->map_data->color_c = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
@@ -106,7 +105,7 @@ void	rgb_int(t_data *data)
 	{
 		rgb = ft_split(data->map_data->f, ',');
 		if (rgb_verify(rgb)
-			|| ft_count_comma(data->map_data->c) != 3)
+			|| ft_count_comma(data->map_data->f) != 2)
 			return (ft_putstr_fd("Error\nInvalid RGB values\n", 2)
 				, free_rgb(rgb), ft_free(1, data));
 		data->map_data->color_f = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
