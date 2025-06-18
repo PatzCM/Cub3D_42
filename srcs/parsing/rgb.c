@@ -91,7 +91,7 @@ void	rgb_int_utils(t_data *data, char **rgb)
 	}
 	if (rgb)
 		free_rgb(rgb);
-	if (!data->map_data->color_f || !data->map_data->color_c)
+	if (data->map_data->color_f == -1 || data->map_data->color_c == -1)
 		return (ft_putstr_fd("Error\nMissing RGB value(s)\n", 2)
 			, ft_free(1, data));
 }

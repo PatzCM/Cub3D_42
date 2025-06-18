@@ -50,8 +50,8 @@ void	ft_init_ray_map(t_data *data, char *file)
 	data->map_data->ea = NULL;
 	data->map_data->f = NULL;
 	data->map_data->c = NULL;
-	data->map_data->color_c = 0;
-	data->map_data->color_f = 0;
+	data->map_data->color_c = -1;
+	data->map_data->color_f = -1;
 	data->file = ft_strdup(file);
 	if (!data->file)
 		ft_free(-1, data);
