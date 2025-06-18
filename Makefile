@@ -6,7 +6,7 @@
 #    By: afogonca <afogonca@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/22 08:54:03 by afogonca          #+#    #+#              #
-#    Updated: 2025/06/16 11:41:42 by afogonca         ###   ########.fr        #
+#    Updated: 2025/06/18 14:41:19 by palexand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ PARSE_SRCS =	srcs/parsing/parsing.c \
 				srcs/parsing/rgb.c \
 				srcs/parsing/copy_maps_utils.c \
 				srcs/parsing/copy_map.c \
-				srcs/parsing/fill_blank.c
+				srcs/parsing/fill_blank.c \
+				srcs/parsing/utils.c
 
 INIT =	srcs/init/ft_init.c \
 		srcs/init/ft_init_tex_player.c \

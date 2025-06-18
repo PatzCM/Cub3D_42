@@ -63,20 +63,6 @@ bool	rgb_verify(char **rgb)
 	return (FALSE);
 }
 
-int	ft_count_comma(char *line)
-{
-	int	i;
-	int	count;
-
-	i = -1;
-	count = 0;
-	if (!line)
-		return (i);
-	while (line[++i])
-		if (line[i] ==',')
-			count++;
-	return (count);
-}
 void	rgb_int_utils(t_data *data, char **rgb)
 {
 	if (data->map_data->c)

@@ -12,7 +12,6 @@
 
 #include "../../incs/cub3d.h"
 
-
 void	fill_outer(t_data *data, int x, int y)
 {
 	if (x < 0 || y < 0 || x >= data->map->max_height - 1
@@ -29,8 +28,8 @@ void	fill_outer(t_data *data, int x, int y)
 
 void	find_outer(t_data *data)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = -1;
 	while (data->map->map[++x])

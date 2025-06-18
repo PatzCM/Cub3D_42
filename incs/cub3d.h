@@ -247,5 +247,6 @@ void	free_map(char **line, int i, int fd);
 void	ft_init_player_utils(t_data *data, char tmp, int i, int *player);
 void	fill_blank(t_data *data, int x, int y);
 void	find_outer(t_data *data);
+int		ft_count_comma(char *line);
 
 #endif
