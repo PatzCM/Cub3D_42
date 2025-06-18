@@ -134,6 +134,10 @@ fclean: clean
 re:	fclean all 
 	@echo "$(GREEN)$(BOLD)$(BUILD) REBUILDING !$(RESET)"
 
+norm: 
+	@echo "$(YELLOW)$(BOLD)$(BOOK) NORMINING... $(RESET)"
+	@norminette $(INC_PATH) $(SRCS_PATH) $(LIBFT_PATH)
+	@echo "$(GREEN)$(BOLD)$(CHECKMARK) NORMINING COMPLETED $(GREEN)$(BOLD)$(BOOK)$(RESET)"
 #------------------------------------------------------------------------------#
 #															COLORS & STYLES                                	 #
 #------------------------------------------------------------------------------#
