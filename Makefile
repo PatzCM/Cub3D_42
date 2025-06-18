@@ -115,8 +115,6 @@ fclean: clean
 	@echo "$(RED)$(BOLD)$(CLEAN) REMOVING EXECUTER... $(RESET)"
 	@${RM} ${NAME}
 	@if test -d "$(LIBFT_PATH)"; then \
-		$(MAKE) -C ./libs/libft fclean --no-print-directory; fi;
-	@if test -d "$(MLX_PATH)"; then \
 		rm -fr $(MLX_PATH); fi;
 	@echo "$(BCYA)[fclean] Archive, Libft and Minilibx removed$(D)"
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS REMOVING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
