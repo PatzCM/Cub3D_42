@@ -14,10 +14,10 @@
 
 bool	flood_fill(t_data *data, int x, int y)
 {
-	if (x < 0 || y < 0 || x > data->map->max_height
+	if (x < 0 || y < 0 || x >= data->map->max_height
 		|| y > (int)(ft_strlen(data->map->map[x]) - 1))
 		return (x >= 0 && y >= 0
-			&& x <= data->map->max_height
+			&& x < data->map->max_height
 			&& y < (int)(ft_strlen(data->map->map[x]) - 1)
 			&& data->map->map[x][y] == '1');
 	if (data->map->map[x][y] == '1' || data->map->map[x][y] == 'X')
@@ -47,42 +47,13 @@ int	ft_strchr_player(char *line)
 	return (0);
 }
 
-// void	find_player(t_data *data)
-// {
-// 	int	i;
-// 	int	j;
-// 	static int player;
-//
-// 	i = -1;
-// 	while (data->map->map[++i])
-// 	{
-// 		j = 0;
-// 		while (data->map->map[i][j])
-// 		{
-// 			if (data->map->map[i][j] == 'S' ||data->map->map[i][j] == 'N' ||
-// 				data->map->map[i][j] == 'E' ||
-// 				data->map->map[i][j] == 'W')
-// 			{
-// 				data->player->x_pos = i;
-// 				data->player->y_pos = j;
-// 				player++;
-// 			}
-// 			j++;
-// 		}
-// 	}
-// 	if (player != 1)
-// 		return(ft_putstr_fd("Error\nThere must", 2),
-//			ft_putstr_fd("be only one player in the map\n", 2)
-//			, ft_free(1, data));
-// }
-//
 bool	check_flood(t_data *data)
 {
 	int		i;
 	char	**tmp;
 
 	i = -1;
-	data->map->fmap = ft_calloc(sizeof(char *), data->map->max_height + 2);
+	data->map->fmap = ft_calloc(sizeof(char *), data->map->max_height + 1);
 	while (data->map->map[++i])
 		data->map->fmap[i] = ft_strdup(data->map->map[i]);
 	data->map->fmap[i] = NULL;

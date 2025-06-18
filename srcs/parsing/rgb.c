@@ -63,6 +63,24 @@ bool	rgb_verify(char **rgb)
 	return (FALSE);
 }
 
+void	rgb_int_utils(t_data *data, char **rgb)
+{
+	if (data->map_data->c)
+	{
+		rgb = ft_split(data->map_data->c, ',');
+		if (rgb_verify(rgb))
+			return (ft_putstr_fd("Error\nInvalid RGB values\n", 2)
+				, free_rgb(rgb), ft_free(1, data));
+		data->map_data->color_c = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
+			| ft_atoi(rgb[2]);
+	}
+	if (rgb)
+		free_rgb(rgb);
+	if (!data->map_data->color_f || !data->map_data->color_c)
+		return (ft_putstr_fd("Error\nMissing RGB value(s)\n", 2)
+			, ft_free(1, data));
+}
+
 void	rgb_int(t_data *data)
 {
 	char	**rgb;
@@ -72,21 +90,15 @@ void	rgb_int(t_data *data)
 	{
 		rgb = ft_split(data->map_data->f, ',');
 		if (rgb_verify(rgb))
-			return (ft_putstr_fd("Error!\nInvalid RGB values\n", 2)
+			return (ft_putstr_fd("Error\nInvalid RGB values\n", 2)
 				, free_rgb(rgb), ft_free(1, data));
 		data->map_data->color_f = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
 			| ft_atoi(rgb[2]);
 	}
 	if (rgb)
-		free_rgb(rgb);
-	if (data->map_data->c)
 	{
-		rgb = ft_split(data->map_data->c, ',');
-		if (rgb_verify(rgb))
-			return (ft_putstr_fd("Error!\nInvalid RGB values\n", 2)
-				, free_rgb(rgb), ft_free(1, data));
-		data->map_data->color_c = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
-			| ft_atoi(rgb[2]);
+		free_rgb(rgb);
+		rgb = NULL;
 	}
-	free_rgb(rgb);
+	rgb_int_utils(data, rgb);
 }

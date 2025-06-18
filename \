@@ -1,104 +1,104 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flood_fill.c                                       :+:      :+:    :+:   */
+/*   rgb.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: palexand <palexand@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: afogonca <afogonca@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 18:31:46 by palexand          #+#    #+#             */
-/*   Updated: 2025/06/16 18:14:03 by palexand         ###   ########.fr       */
+/*   Created: 2025/06/14 15:02:12 by afogonca          #+#    #+#             */
+/*   Updated: 2025/06/16 13:33:58 by afogonca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-bool	flood_fill(t_data *data, int x, int y)
+static bool	rgb_values(char **rgb)
 {
-	if (x < 0 || y < 0 || x > data->map->max_height - 1
-		|| y > (int)(ft_strlen(data->map->map[x]) - 1))
-	{
-		printf("%i\t%i\t%c\n", x, y, data->map->map[x][y]);
-		printf("%i\t%lu\n", data->map->max_height, ft_strlen(data->map->map[x]));
-		return (x >= 0 && y >= 0
-			&& x <= data->map->max_height
-			&& y < (int)(ft_strlen(data->map->map[x]) - 1)
-			&& data->map->map[x][y] == '1');
-	}
-	if (data->map->map[x][y] == '1' || data->map->map[x][y] == 'X')
-		return (TRUE);
-	data->map->map[x][y] = 'X';
-	if (!flood_fill(data, x + 1, y))
-		return (FALSE);
-	if (!flood_fill(data, x - 1, y))
-		return (FALSE);
-	if (!flood_fill(data, x, y + 1))
-		return (FALSE);
-	if (!flood_fill(data, x, y - 1))
-		return (FALSE);
-	return (TRUE);
-}
-
-int	ft_strchr_player(char *line)
-{
-	if (ft_strchr(line, 'S'))
-		return (ft_strchr_len(line, 'S'));
-	if (ft_strchr(line, 'N'))
-		return (ft_strchr_len(line, 'N'));
-	if (ft_strchr(line, 'E'))
-		return (ft_strchr_len(line, 'E'));
-	if (ft_strchr(line, 'W'))
-		return (ft_strchr_len(line, 'W'));
-	return (0);
-}
-
-// void	find_player(t_data *data)
-// {
-// 	int	i;
-// 	int	j;
-// 	static int player;
-//
-// 	i = -1;
-// 	while (data->map->map[++i])
-// 	{
-// 		j = 0;
-// 		while (data->map->map[i][j])
-// 		{
-// 			if (data->map->map[i][j] == 'S' ||data->map->map[i][j] == 'N' ||
-// 				data->map->map[i][j] == 'E' ||
-// 				data->map->map[i][j] == 'W')
-// 			{
-// 				data->player->x_pos = i;
-// 				data->player->y_pos = j;
-// 				player++;
-// 			}
-// 			j++;
-// 		}
-// 	}
-// 	if (player != 1)
-// 		return(ft_putstr_fd("Error\nThere must", 2),
-//			ft_putstr_fd("be only one player in the map\n", 2)
-//			, ft_free(1, data));
-// }
-//
-bool	check_flood(t_data *data)
-{
-	int		i;
-	char	**tmp;
+	int	i;
 
 	i = -1;
-	data->map->fmap = ft_calloc(sizeof(char *), data->map->max_height + 2);
-	while (data->map->map[++i])
-		data->map->fmap[i] = ft_strdup(data->map->map[i]);
-	data->map->fmap[i] = NULL;
-	tmp = data->map->map;
-	data->map->map = data->map->fmap;
-	if (!flood_fill(data, data->player->x_pos, data->player->y_pos))
-	{
-		data->map->map = tmp;
-		ft_matrix_free((void **) data->map->fmap);
-		return (ft_putstr_fd("Error!\nMap is not closed\n", 2), FALSE);
-	}
-	data->map->map = tmp;
-	ft_matrix_free((void **) data->map->fmap);
+	while (rgb[++i])
+		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
+			return (FALSE);
 	return (TRUE);
+}
+
+char	*duptrim(char **str, bool check, t_data *data)
+{
+	char	*temp;
+
+	temp = ft_strtrim(*str, " \n");
+	if (check)
+		parse_cub_file(".xpm", temp, data, TRUE);
+	free(*str);
+	return (temp);
+}
+
+bool	rgb_verify(char **rgb)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = -1;
+	count = 0;
+	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb_values(rgb) == FALSE)
+		return (TRUE);
+	if (rgb && rgb[0] && rgb[1] && rgb[2] && rgb[3])
+		return (TRUE);
+	while (rgb[++i])
+	{
+		j = -1;
+		count = 0;
+		while (rgb[i][++j])
+		{
+			if (!ft_isdigit(rgb[i][j]) && rgb[i][j] != ' ')
+				return (TRUE);
+			if (ft_isdigit(rgb[i][j]))
+				count++;
+		}
+	}
+	if (!count)
+		return (TRUE);
+	return (FALSE);
+}
+
+void	rgb_int_utils(t_data *data, char **rgb)
+{
+	if (data->map_data->c)
+	{
+		rgb = ft_split(data->map_data->c, ',');
+		if (rgb_verify(rgb))
+			return ( ft_putstr_fd("Error\nInvalid RGB values\n", 2)
+				, free_rgb(rgb), ft_free(1, data));
+		data->map_data->color_c = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
+			| ft_atoi(rgb[2]);
+	}
+	if (rgb)
+		free_rgb(rgb);
+	if (!data->map_data->color_f || !data->map_data->color_c)
+		return (ft_putstr_fd("Error\nMissing RGB value(s)\n", 2)
+			, ft_free(1, data));
+}
+
+void	rgb_int(t_data *data)
+{
+	char	**rgb;
+
+	rgb = NULL;
+	if (data->map_data->f)
+	{
+		rgb = ft_split(data->map_data->f, ',');
+		if (rgb_verify(rgb))
+			return (ft_putstr_fd("Error\nInvalid RGB values\n", 2)
+				, free_rgb(rgb), ft_free(1, data));
+		data->map_data->color_f = ft_atoi(rgb[0]) << 16 | ft_atoi(rgb[1]) << 8
+			| ft_atoi(rgb[2]);
+	}
+	if (rgb)
+	{
+		free_rgb(rgb);
+		rgb = NULL;
+	}
+	rgb_int_utils(data, rgb);
 }

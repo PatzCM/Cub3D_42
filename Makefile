@@ -58,8 +58,7 @@ LIBS = ./libs/mlx/libmlx.a ./libs/libft/libft.a
 #															COMPILER & FLAGS                                 #
 #------------------------------------------------------------------------------#
 
-CFLAGS = -g -O3
-#-Wall -Wextra -Werror
+CFLAGS = -g -O3 -Wall -Wextra -Werror
 MLXFLAGS = -L ./libs/minilibx-linux -lm -Ilmlx -lXext -lX11
 CC = cc
 RM = rm -rf

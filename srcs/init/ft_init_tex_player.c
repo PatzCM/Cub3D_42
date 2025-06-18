@@ -27,34 +27,28 @@ void	ft_init_minimap(t_data *data)
 			&data->img_minimap->endian);
 }
 
-char	ft_player_look(char *line)
-{
-	if (ft_strchr(line, 'N'))
-		return ('N');
-	else if (ft_strchr(line, 'S'))
-		return ('S');
-	else if (ft_strchr(line, 'E'))
-		return ('E');
-	else if (ft_strchr(line, 'W'))
-		return ('W');
-	return ('\0');
-}
-
 void	ft_init_player(t_data *data)
 {
 	int		i;
-	char	tmp;
+	int		j;
+	int		player;
 
 	i = -1;
+	player = 0;
 	while (data->map->map[++i])
 	{
-		tmp = ft_player_look(data->map->map[i]);
-		ft_init_player_utils(data, tmp, i);
+		j = -1;
+		while (data->map->map[i][++j])
+		{
+			if (data->map->map[i][j] == 'S' || data->map->map[i][j] == 'N' ||
+					data->map->map[i][j] == 'E' ||
+					data->map->map[i][j] == 'W')
+				ft_init_player_utils(data, data->map->map[i][j], i, &player);
+		}
 	}
-	if (tmp && data->player->x_pos == -1
-		&& data->player->y_pos == -1)
+	if (player != 1)
 	{
-		ft_putstr_fd("Error\nPlayer not found\n", 2);
+		ft_putstr_fd("Error\nInvalid number of Players\n", 2);
 		ft_free(1, data);
 	}
 }

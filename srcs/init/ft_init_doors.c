@@ -12,23 +12,16 @@
 
 #include "../../incs/cub3d.h"
 
-void	ft_init_player_utils(t_data *data, char tmp, int i)
+void	ft_init_player_utils(t_data *data,
+						  char tmp, int i, int *player)
 {
-	if (tmp && data->player->x_pos == -1
-		&& data->player->y_pos == -1)
-	{
-		data->player->x_pos = i + 0.5;
-		data->player->y_pos = ft_strchr_len(data->map->map[i], tmp) + 0.5;
-		data->player->angle = (tmp == 'N') * 270 + (tmp == 'S') * 90
-			+ (tmp == 'W') * 180;
-		data->player->y_look = cos(data->player->angle * M_PI / 180.0);
-		data->player->x_look = sin(data->player->angle * M_PI / 180.0);
-	}
-	else if (tmp)
-	{
-		ft_putstr_fd("Error\nMultiple Players\n", 2);
-		ft_free(1, data);
-	}
+	data->player->x_pos = i + 0.5;
+	data->player->y_pos = ft_strchr_len(data->map->map[i], tmp) + 0.5;
+	data->player->angle = (tmp == 'N') * 270 + (tmp == 'S') * 90
+		+ (tmp == 'W') * 180;
+	data->player->y_look = cos(data->player->angle * M_PI / 180.0);
+	data->player->x_look = sin(data->player->angle * M_PI / 180.0);
+	(*player)++;
 }
 
 t_door	*ft_new_door(int x, int y)

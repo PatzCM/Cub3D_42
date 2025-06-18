@@ -51,7 +51,6 @@ static bool	size_map(char *file, t_data *data)
 		i++;
 	}
 	i -= data->map_data->line_position;
-	data->map->max_height = i;
 	if (i <= 0)
 		return (false);
 	data->map->map = ft_calloc(sizeof(t_map), i);
