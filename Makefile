@@ -1,18 +1,26 @@
-#======================================================================#
-#                     CUB3D - A C++ 3D Game Engine                     #
-#======================================================================#
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: afogonca <afogonca@student.42porto.com>    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/22 08:54:03 by afogonca          #+#    #+#              #
+#    Updated: 2025/06/18 14:41:19 by palexand         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-# This file is part of CUB3D.
-NAME = cub3D
 
 #------------------------------------------------------------------------------#
 #															FILES & PATHS                                	 	 #
 #------------------------------------------------------------------------------#
 
+NAME = cub3D
+BONUS_NAME = cub3D_bonus
 # Source files
 INC_PATH = ./incs
 LIB_PATH = ./libs
-BUILD_PATH = .build
+# BUILD_PATH = .build
 SRCS_PATH = ./srcs
 LIBFT_PATH = $(LIB_PATH)/libft
 MLX_PATH = $(LIB_PATH)/mlx
@@ -22,77 +30,71 @@ HEADERS = $(INC_PATH)/cub3d.h
 
 # Source files
 
-SRCS = $(addprefix $(SRCS_PATH)/, \
-			 main.c \
-			 parsing.c file_parsing.c \
-			 init_data.c \
-			 flood_fill.c \
-			 free.c)
-# inputs.c data_ini.c ft_exit.c raycaster.c calculation.c draw.c fps_counter.c textures.c minimap.c)
+RENDER_SRCS =	srcs/render/ft_frame_render.c \
+				srcs/render/ft_render_line.c \
+				srcs/render/ft_render_utils.c \
+				srcs/render/ft_render_utils2.c \
+				srcs/render/ft_player_mov.c \
+				srcs/render/ft_minimap.c
 
-# Object files
-OBJS = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
+PARSE_SRCS =	srcs/parsing/parsing.c \
+				srcs/parsing/file_parsing.c \
+				srcs/parsing/flood_fill.c \
+				srcs/parsing/rgb.c \
+				srcs/parsing/copy_maps_utils.c \
+				srcs/parsing/copy_map.c \
+				srcs/parsing/fill_blank.c \
+				srcs/parsing/utils.c
 
-# Libraries
-LIBS = $(addprefix $(LIB_PATH)/, \
-			libft/libft.a \
-			mlx/libmlx.a)
+INIT =	srcs/init/ft_init.c \
+		srcs/init/ft_init_tex_player.c \
+		srcs/init/ft_init_doors.c
+
+SRCS =	srcs/main.c srcs/ft_free.c \
+		srcs/ft_free_map.c \
+		$(PARSE_SRCS) \
+		$(RENDER_SRCS) $(HOOKS) $(INIT)
+
+LIBS = ./libs/mlx/libmlx.a ./libs/libft/libft.a
 
 #------------------------------------------------------------------------------#
 #															COMPILER & FLAGS                                 #
 #------------------------------------------------------------------------------#
 
+CFLAGS = -g -O3 -Wall -Wextra -Werror
+MLXFLAGS = -L ./libs/minilibx-linux -lm -Ilmlx -lXext -lX11
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
-AR = ar rcs
 SILENT_MAKE = make -s extra
 
-#-----------------------------------------------------------------------------#
-#                              RULES                                          #
-#-----------------------------------------------------------------------------#
+HOOKS = srcs/hooks/key_hook.c
+OBJS = $(SRCS:.c=.o)
 
-# All
 all: deps $(NAME)
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) BUILD COMPLETED $(GREEN)$(BOLD)$(BUILD)$(RESET)"
 
-
-$(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c $(HEADERS)
-	@mkdir -p $(BUILD_PATH)
+bonus: deps $(BONUS_NAME)
+	@echo "$(GREEN)$(BOLD)$(CHECKMARK) BUILD COMPLETED $(GREEN)$(BOLD)$(BUILD)$(RESET)"
+%.o: %.c
 	@cc $(CFLAGS) -I/usr/include -Iminilibx-linux -o $@ -c $<
 
 
-${NAME}: ${OBJS} ${LIBS}
-	@echo "$(GREEN)$(BOLD)$(BUILD) BUILDING...$(RESET)"
-	@${CC} ${CFLAGS} -o $@ $(OBJS) -L$(LIB_PATH)/libft -lft -L$(LIB_PATH)/mlx -lmlx
-	@echo "$(GRN)[Cub3d successfully compiled]$(D)"
-
-# $(BUILD_PATH)/%.o: $(SRC_PATH)/%.c $(HEADERS)
-# 	@mkdir -p $(BUILD_PATH)
-# 	@$(CC) $(CFLAGS) -I $(INC_PATH) -c $< -o $@
-
-deps:
+deps: 
 	@if test ! -d "$(LIBFT_PATH)"; then make -s get_libft; \
-		else echo "$(GRN)[Libft folder found]$(D)"; fi
-	@if test ! -d "$(MLX_PATH)"; then make -s get_minilibx; \
-		else echo "$(MAG)[Minilibx folder found]$(D)"; fi
-	@echo "$(GREEN)$(BOLD)$(BUILD) INCLUDED HEADERS $(RESET)"
-	# @${CC} ${CFLAGS} -I ${INC_PATH} -MD -c $< -o $@
-	# @echo "$(GREEN)$(BOLD)$(CHECKMARK) $(NAME) $(GREEN)$(BOLD)$(BUILD)$(RESET)"
-
+		else echo "$(GREEN)$(BOLD)$(CHECKMARK) libft already exists $(GREEN)$(BOLD)$(BUILD)$(RESET)"; fi
+	@if test ! -d "$(MLX_PATH)"; then make -s get_mlx; \
+		else echo "$(GREEN)$(BOLD)$(CHECKMARK) mlx already exists $(GREEN)$(BOLD)$(BUILD)$(RESET)"; fi
 
 get_libft:
 	@echo "[$(CYA)Downloading Libft$(D)]"
-	git clone git@github.com:PatzCM/Libft_42.git $(LIBFT_PATH)
+	@$(MAKE) -C ./libs/libft/
 	@echo "$(CYA)[Libft successfully downloaded]$(D)"
 
-get_minilibx:
+get_mlx:
 	@echo "[$(MAG)Downloading Minilibx$(D)]"
 	git clone git@github.com:42Paris/minilibx-linux.git $(MLX_PATH)
 	@echo "$(MAG)[Minilibx successfully downloaded]$(D)"
 
-
-# Build libft
 $(LIBFT_PATH)/libft.a:
 	@echo "$(GREEN)$(BOLD)Building libft$(RESET)"
 	@$(MAKE) -C $(LIBFT_PATH)
@@ -102,32 +104,40 @@ $(LIB_PATH)/mlx/libmlx.a:
 	@echo "$(GREEN)$(BOLD)Building mlx$(RESET)"
 	@$(MAKE) -C $(LIB_PATH)/mlx
 
+$(NAME): $(OBJS) $(LIBS)
+	@echo "$(GREEN)$(BOLD)$(BUILD) BUILDING...$(RESET)"
+	# $(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $@ $(NAME) $(MLXFLAGS) -g
+	@$(CC) $(CFLAGS) -o $@ $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx $(MLXFLAGS)
+	@echo "$(GRN)[Cub3d successfully compiled]$(D)"
+
+$(BONUS_NAME): $(OBJS) $(LIBS)
+	@echo "$(GREEN)$(BOLD)$(BUILD) BUILDING...$(RESET)"
+	# $(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $@ $(NAME) $(MLXFLAGS) -g
+	@$(CC) $(CFLAGS) -o $@ $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx $(MLXFLAGS)
+	@echo "$(GRN)[Cub3d Bonus successfully compiled]$(D)"
+
 clean:
 	@echo "$(RED)$(BOLD)$(CLEAN) CLEANING FILES... $(RESET)"
 	@${RM} ${BUILD_PATH}
+	@${RM} ${OBJS}
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS CLEANING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
 
 fclean: clean
 	@echo "$(RED)$(BOLD)$(CLEAN) REMOVING EXECUTER... $(RESET)"
 	@${RM} ${NAME}
-	@${RM} ${LIB_PATH}
+	@${RM} ${BONUS_NAME}
+	@if test -d "$(LIBFT_PATH)"; then \
+		rm -fr $(MLX_PATH); fi;
 	@echo "$(BCYA)[fclean] Archive, Libft and Minilibx removed$(D)"
 	@echo "$(GREEN)$(BOLD)$(CHECKMARK) SUCCESS REMOVING! $(GREEN)$(BOLD)$(CLEAN)$(RESET)"
 
-re: 
+re:	fclean all 
 	@echo "$(GREEN)$(BOLD)$(BUILD) REBUILDING !$(RESET)"
-	@$(MAKE) -s fclean
-	@$(MAKE) -s all
 
-again: clean
-	@echo "$(BCYA)[rebuilding...]$(D)"
-	@$(RM) $(NAME)
-	@$(RM) $(LIB_NAME)
-	@$(MAKE) -s
-
-
-.PHONY: all clean fclean re again
-
+norm: 
+	@echo "$(YELLOW)$(BOLD)$(BOOK) NORMINING... $(RESET)"
+	@norminette $(INC_PATH) $(SRCS_PATH) $(LIBFT_PATH)
+	@echo "$(GREEN)$(BOLD)$(CHECKMARK) NORMINING COMPLETED $(GREEN)$(BOLD)$(BOOK)$(RESET)"
 #------------------------------------------------------------------------------#
 #															COLORS & STYLES                                	 #
 #------------------------------------------------------------------------------#
@@ -187,4 +197,4 @@ CHECK =
 CHECKMARK = ✔️
 CROSS = ❌
 
-
+.PHONY: all fclean re clean

@@ -6,34 +6,22 @@
 /*   By: afogonca <afogonca@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:34:57 by afogonca          #+#    #+#             */
-/*   Updated: 2025/05/06 09:36:36 by afogonca         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:02:56 by afogonca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/cub3d.h"
 
-void	ft_free_map(t_map *map)
+void	free_rgb(char **rgb)
 {
 	int	i;
 
+	if (!rgb)
+		return ;
 	i = -1;
-	if (map)
-	{
-		if (map->map)
-		{
-			while (map->map[++i])
-				free(map->map[i]);
-			free(map->map);
-		}
-		i = -1;
-		if (map->matrix)
-		{
-			while (map->matrix[++i])
-				free(map->matrix[i]);
-			free(map->matrix);
-		}
-		free(map);
-	}
+	while (rgb[++i])
+		free(rgb[i]);
+	free(rgb);
 }
 
 void	ft_free_tex(t_data *data)
@@ -64,36 +52,11 @@ void	ft_free_tex(t_data *data)
 	}
 }
 
-void	ft_free_map_data(t_data *data)
-{
-	if (data->map_data)
-	{
-		if (data->map_data->NO)
-			free(data->map_data->NO);
-		if (data->map_data->SO)
-			free(data->map_data->SO);
-		if (data->map_data->EA)
-			free(data->map_data->EA);
-		if (data->map_data->WE)
-			free(data->map_data->WE);
-		if (data->map_data->C)
-			free(data->map_data->C);
-		if (data->map_data->F)
-			free(data->map_data->F);
-		free(data->map_data);
-	}
-
-}
-
 void	ft_free_data(t_data *data)
 {
-	if (data->img)
-	{
-		if (data->img->img)
-			mlx_destroy_image(data->mlx, data->img->img);
-		free(data->img);
-	}
+	ft_free_img(data);
 	ft_free_tex(data);
+	ft_free_doors(data);
 	if (data->player)
 		free(data->player);
 	if (data->ray)
@@ -108,6 +71,7 @@ void	ft_free_data(t_data *data)
 		mlx_destroy_window(data->mlx, data->win);
 	if (data->mlx)
 	{
+		mlx_do_key_autorepeaton(data->mlx);
 		mlx_destroy_display(data->mlx);
 		free(data->mlx);
 	}
@@ -120,6 +84,6 @@ void	ft_free(int exit_flag, t_data *data)
 		ft_free_data(data);
 	if (exit_flag != -1 && exit_flag >= 0)
 		exit (exit_flag);
-	printf("Fatal error: failed to malloc\n");
+	ft_putstr_fd("Fatal error: failed to malloc\n", 2);
 	exit (1);
 }
