@@ -11,7 +11,6 @@ A raycasting 3D game engine inspired by [Wolfenstein 3D](https://en.wikipedia.or
 ## Table of Contents
 
 - [Features](#features)
-- [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Building](#building)
@@ -29,6 +28,7 @@ A raycasting 3D game engine inspired by [Wolfenstein 3D](https://en.wikipedia.or
 - [Testing](#testing)
 - [Dependencies](#dependencies)
 - [Authors](#authors)
+- [License](#license)
 
 ---
 
@@ -44,12 +44,6 @@ A raycasting 3D game engine inspired by [Wolfenstein 3D](https://en.wikipedia.or
 - **Door system** with open/close interaction (bonus)
 - **Robust map parser** with comprehensive error handling and validation
 - **Fish-eye correction** using perpendicular wall distance
-
----
-
-## Screenshots
-
-> Run the project with one of the provided maps to see it in action!
 
 ---
 
